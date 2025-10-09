@@ -1,53 +1,30 @@
 const db = require('../config/db');
 
 const User = {
-  create: (user) => {
-    return new Promise((resolve, reject) => {
-      const { firstName, lastName, email, password, role, department } = user;
-      const sql = `INSERT INTO users (firstName, lastName, email, password, role, department) VALUES (?, ?, ?, ?, ?, ?)`;
-      db.run(sql, [firstName, lastName, email, password, role, department], function(err) {
-        if (err) {
-          return reject(err);
-        }
-        resolve({ id: this.lastID });
-      });
-    });
+  async create(user) {
+    const { firstName, lastName, email, password, role, department } = user;
+    const sql = `INSERT INTO users ("firstName", "lastName", email, password, role, department) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const params = [firstName, lastName, email, password, role, department];
+    const result = await db.query(sql, params);
+    return result.rows[0];
   },
 
-  findByEmail: (email) => {
-    return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM users WHERE email = ?`;
-      db.get(sql, [email], (err, row) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(row);
-      });
-    });
+  async findByEmail(email) {
+    const sql = `SELECT * FROM users WHERE email = $1`;
+    const result = await db.query(sql, [email]);
+    return result.rows[0];
   },
 
-  findById: (id) => {
-    return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM users WHERE id = ?`;
-      db.get(sql, [id], (err, row) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(row);
-      });
-    });
+  async findById(id) {
+    const sql = `SELECT * FROM users WHERE id = $1`;
+    const result = await db.query(sql, [id]);
+    return result.rows[0];
   },
 
-  findFirstUser: () => {
-    return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM users ORDER BY id ASC LIMIT 1`;
-      db.get(sql, [], (err, row) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(row);
-      });
-    });
+  async findFirstUser() {
+    const sql = `SELECT * FROM users ORDER BY id ASC LIMIT 1`;
+    const result = await db.query(sql);
+    return result.rows[0];
   }
 };
 

@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 const User = require('../../server/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -28,12 +29,12 @@ exports.handler = async function (event, context) {
       department,
     };
 
-    const result = await User.create(newUser);
+    const createdUser = await User.create(newUser);
 
     const payload = {
       user: {
-        id: result.id,
-        role: newUser.role,
+        id: createdUser.id,
+        role: createdUser.role,
       },
     };
 
@@ -44,7 +45,7 @@ exports.handler = async function (event, context) {
       body: JSON.stringify({ token }),
     };
   } catch (err) {
-    console.error(err);
-    return { statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) };
+    console.error('Registration Error:', err);
+    return { statusCode: 500, body: JSON.stringify({ msg: 'Server error during registration.' }) };
   }
 };
