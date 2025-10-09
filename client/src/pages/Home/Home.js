@@ -5,7 +5,6 @@ import {
   AcademicCapIcon, 
   ExclamationTriangleIcon,
   ChartBarIcon,
-  DocumentTextIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import Button from '../../components/UI/Button';
@@ -119,13 +118,13 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
                 <div className={`w-16 h-16 ${feature.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-6`}>
                   <feature.icon className={`w-8 h-8 ${feature.color}`} />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {feature.title}
                 </h3>
                 <p className="text-gray-600">
@@ -175,8 +174,8 @@ const Home = () => {
               <ul className="space-y-2 text-gray-400">
                 <li><Link to="/login" className="hover:text-white">Sign In</Link></li>
                 <li><Link to="/register" className="hover:text-white">Register</Link></li>
-                <li><a href="#" className="hover:text-white">Help Center</a></li>
-                <li><a href="#" className="hover:text-white">Contact IT</a></li>
+                <li><button className="hover:text-white">Help Center</button></li>
+                <li><button className="hover:text-white">Contact IT</button></li>
               </ul>
             </div>
             
