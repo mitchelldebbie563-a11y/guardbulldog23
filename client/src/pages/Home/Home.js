@@ -53,6 +53,24 @@ const Home = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
+        <header className="absolute top-0 left-0 right-0 z-10">
+          <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+                  <img src="/logo.png" alt="GUARDBULLDOG Logo" className="w-full h-full object-contain" />
+              </div>
+              <span className="text-xl font-bold text-gray-800">GUARD<span className="text-secondary">BULLDOG</span></span>
+            </div>
+            <div className="hidden md:flex items-center space-x-8">
+              <Link to="/" className="text-gray-600 hover:text-secondary transition-colors">Home</Link>
+              <Link to="/about" className="text-gray-600 hover:text-secondary transition-colors">About</Link>
+              <Link to="/login" className="text-gray-600 hover:text-secondary transition-colors">Sign In</Link>
+              <Link to="/register">
+                <Button>Get Started</Button>
+              </Link>
+            </div>
+          </nav>
+        </header>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <div className="flex justify-center mb-8">
@@ -172,13 +190,14 @@ const Home = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link to="/login" className="hover:text-white">Sign In</Link></li>
+                <li><Link to="/about" className="hover:text-white">About</Link></li>
+                <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                <li><Link to="/login" className="text-gray-600 hover:text-secondary transition-colors">Login</Link></li>
                 <li><Link to="/register" className="hover:text-white">Register</Link></li>
                 <li><button className="hover:text-white">Help Center</button></li>
                 <li><button className="hover:text-white">Contact IT</button></li>
               </ul>
             </div>
-            
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact</h3>
               <div className="text-gray-400 space-y-2">

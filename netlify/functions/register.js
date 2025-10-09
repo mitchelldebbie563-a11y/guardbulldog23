@@ -1,11 +1,10 @@
-require('dotenv').config();
 require('dotenv').config({ path: '../../.env' });
 const User = require('../../server/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.handler = async function (event, context) {
-  const { firstName, lastName, email, password, department } = JSON.parse(event.body);
+  const { firstName, lastName, email, password, role, department } = JSON.parse(event.body);
 
   try {
     const existingUser = await User.findByEmail(email);
@@ -13,9 +12,9 @@ exports.handler = async function (event, context) {
       return { statusCode: 400, body: JSON.stringify({ msg: 'User already exists' }) };
     }
 
-    // Check if this is the first user
+    // Use the role from the frontend, but make the first user a super_admin regardless
     const firstUser = await User.findFirstUser();
-    const role = firstUser ? 'user' : 'super_admin';
+    const finalRole = firstUser ? role : 'super_admin';
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -25,7 +24,7 @@ exports.handler = async function (event, context) {
       lastName,
       email,
       password: hashedPassword,
-      role,
+      role: finalRole,
       department,
     };
 

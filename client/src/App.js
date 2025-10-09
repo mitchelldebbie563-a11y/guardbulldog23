@@ -11,6 +11,8 @@ import ChatWidget from './components/Chat/ChatWidget';
 
 // Pages
 import Home from './pages/Home/Home';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -73,6 +75,8 @@ function App() {
             <Routes>
               {/* Public Home Route */}
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
               
               {/* Public Auth Routes */}
               <Route path="/login" element={
