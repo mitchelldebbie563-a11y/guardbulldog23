@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bowie-blue': '#003366',
-        'bowie-gold': '#FFD700',
+        'primary': '#FFD700', // Gold
+        'secondary': '#FFA500', // Orange
         'danger': '#dc2626',
         'warning': '#f59e0b',
         'success': '#10b981',

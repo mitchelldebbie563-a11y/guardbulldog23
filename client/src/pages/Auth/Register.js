@@ -49,7 +49,7 @@ const Register = () => {
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!formData.email.includes('@bowie.edu')) {
+    } else if (!formData.email.endsWith('@bowie.edu') && !formData.email.endsWith('@students.bowiestate.edu')) {
       newErrors.email = 'Please use your Bowie State University email';
     }
 
@@ -93,215 +93,143 @@ const Register = () => {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-bowie-blue rounded-xl flex items-center justify-center mb-4">
-            <span className="text-white font-bold text-2xl">GB</span>
+          <div className="mx-auto h-12 w-auto flex items-center justify-center">
+            <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold text-2xl">GB</span>
+            </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Join GUARDBULLDOG</h2>
+          <h1 className="mt-6 text-3xl font-bold text-gray-900">Create your <span className="text-secondary">GUARD</span>BULLDOG account</h1>
           <p className="mt-2 text-sm text-gray-600">
             Create your account to help protect our campus
           </p>
         </div>
 
-        {/* Registration Form */}
+        {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                  First Name
-                </label>
+          <div className="rounded-md shadow-sm -space-y-px">
+            {/* First and Last Name */}
+            <div className="flex space-x-2">
+              <div className="w-1/2">
+                <label htmlFor="firstName" className="sr-only">First Name</label>
                 <input
                   id="firstName"
                   name="firstName"
                   type="text"
+                  autoComplete="given-name"
                   required
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.firstName ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                  placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={`form-input ${errors.firstName ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                  placeholder="John"
                 />
-                {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
-                )}
+                {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
               </div>
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                  Last Name
-                </label>
+              <div className="w-1/2">
+                <label htmlFor="lastName" className="sr-only">Last Name</label>
                 <input
                   id="lastName"
                   name="lastName"
                   type="text"
+                  autoComplete="family-name"
                   required
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.lastName ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                  placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`form-input ${errors.lastName ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                  placeholder="Doe"
                 />
-                {errors.lastName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
-                )}
+                {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
               </div>
             </div>
 
-            {/* Email Field */}
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Bowie State Email
-              </label>
+              <label htmlFor="email-address" className="sr-only">Email address</label>
               <input
-                id="email"
+                id="email-address"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
-                className={`form-input ${errors.email ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                placeholder="your.name@bowie.edu"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
-            {/* Role and Department */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-                  Role
-                </label>
-                <select
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className={`form-select ${errors.role ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                >
-                  <option value="student">Student</option>
-                  <option value="staff">Staff</option>
-                  <option value="faculty">Faculty</option>
-                </select>
-                {errors.role && (
-                  <p className="mt-1 text-sm text-red-600">{errors.role}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
-                  Department (Optional)
-                </label>
-                <input
-                  id="department"
-                  name="department"
-                  type="text"
-                  value={formData.department}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder="Computer Science"
-                />
-              </div>
+            {/* Password */}
+            <div className="relative">
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                required
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeSlashIcon className="h-5 w-5 text-gray-500" /> : <EyeIcon className="h-5 w-5 text-gray-500" />}
+              </button>
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
 
-            {/* Password Fields */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`form-input pr-10 ${errors.password ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                  placeholder="At least 6 characters"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className={`form-input pr-10 ${errors.confirmPassword ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''}`}
-                  placeholder="Confirm your password"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
-              )}
+            {/* Confirm Password */}
+            <div className="relative">
+              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                required
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <EyeSlashIcon className="h-5 w-5 text-gray-500" /> : <EyeIcon className="h-5 w-5 text-gray-500" />}
+              </button>
+              {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
             </div>
           </div>
 
-          {/* Submit Button */}
           <div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50"
             >
-              {loading ? (
-                <>
-                  <div className="spinner mr-2"></div>
-                  Creating Account...
-                </>
-              ) : (
-                'Create Account'
-              )}
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
           </div>
-
-          {/* Login Link */}
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <Link
-                to="/login"
-                className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
-              >
-                Sign in here
-              </Link>
-            </p>
-          </div>
         </form>
+
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?{' '}
+            <Link
+              to="/login"
+              className="font-medium text-secondary hover:text-primary transition-colors"
+            >
+              Sign in here
+            </Link>
+          </p>
+        </div>
 
         {/* Terms Notice */}
         <div className="mt-8 p-4 bg-yellow-50 rounded-lg">

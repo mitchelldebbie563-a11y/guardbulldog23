@@ -85,7 +85,7 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
             {/* Mobile menu button */}
             <button
               onClick={onMobileMenuToggle}
-              className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 mr-2"
+              className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary mr-2"
             >
               {isMobileMenuOpen ? (
                 <XMarkIcon className="h-6 w-6" />
@@ -95,7 +95,7 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
             </button>
 
             <Link to="/app/dashboard" className="flex items-center space-x-2">
-              <div className="w-12 h-12 flex items-center justify-center">
+              <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
                 <img
                   src="/logo.png"
                   alt="GUARDBULLDOG Logo"
@@ -103,13 +103,12 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
                 />
               </div>
               <div className="hidden lg:block">
-                <span className="text-lg font-bold text-gray-900">GUARDBULLDOG</span>
+                <span className="text-xl font-bold text-gray-800">GUARD<span className="text-secondary">BULLDOG</span></span>
                 <div className="text-xs text-gray-500 -mt-1">Phishing Protection</div>
               </div>
             </Link>
           </div>
 
-          {/* Breadcrumbs - Centered with flex-grow */}
           <div className="hidden md:flex flex-1 justify-center items-center px-4">
             <Breadcrumbs />
           </div>
@@ -146,7 +145,7 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
                     <h3 className="text-sm font-medium text-gray-900 mb-3">Notifications</h3>
                     <div className="space-y-3 max-h-64 overflow-y-auto">
                       {mockNotifications.map((notification) => (
-                        <div key={notification.id} className={`p-3 rounded-lg border ${notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}>
+                        <div key={notification.id} className={`p-3 rounded-lg border ${notification.unread ? 'bg-yellow-50 border-yellow-200' : 'bg-gray-50 border-gray-200'}`}>
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
                               <p className="text-sm font-medium text-gray-900">{notification.title}</p>
@@ -154,14 +153,14 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
                               <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
                             </div>
                             {notification.unread && (
-                              <div className="w-2 h-2 bg-blue-500 rounded-full ml-2 mt-1"></div>
+                              <div className="w-2 h-2 bg-secondary rounded-full ml-2 mt-1"></div>
                             )}
                           </div>
                         </div>
                       ))}
                     </div>
                     <div className="mt-3 pt-3 border-t border-gray-200">
-                      <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                      <button className="text-sm text-secondary hover:text-primary font-medium">
                         View all notifications
                       </button>
                     </div>
@@ -174,7 +173,7 @@ const Navbar = ({ onMobileMenuToggle, isMobileMenuOpen }) => {
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 p-1 hover:bg-gray-100 transition-colors"
+                className="flex items-center space-x-2 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary p-1 hover:bg-gray-100 transition-colors"
               >
                 <div className="w-8 h-8 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center">
                   <span className="text-white font-medium text-sm">

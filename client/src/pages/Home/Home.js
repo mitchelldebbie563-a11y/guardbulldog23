@@ -50,19 +50,19 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <div className="flex justify-center mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg">
                 <ShieldCheckIcon className="w-12 h-12 text-white" />
               </div>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              GUARD<span className="text-blue-600">BULLDOG</span>
+              GUARD<span className="text-secondary">BULLDOG</span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -88,12 +88,12 @@ const Home = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="bg-white py-16">
+      <div className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">
                   {stat.value}
                 </div>
                 <div className="text-sm text-gray-600">
@@ -137,7 +137,7 @@ const Home = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
+      <div className="bg-gradient-to-r from-primary to-secondary py-16">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Enhance Your Security?
