@@ -5,7 +5,8 @@ import {
   AcademicCapIcon, 
   ExclamationTriangleIcon,
   ChartBarIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import Button from '../../components/UI/Button';
 import Card from '../../components/UI/Card';

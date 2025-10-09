@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import {
   ArrowLeftIcon,
   ClockIcon,
   PlayIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  BookOpenIcon
 } from '@heroicons/react/24/solid';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import toast from 'react-hot-toast';
