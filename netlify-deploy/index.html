@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .bulldog-logo { 
+            width: 60px; 
+            height: 60px; 
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCAEOARQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAn/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAgJ/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AqmAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//Z');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+        .card-hover {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card-hover:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+        }
+        
+        /* Professional Demo Styling */
+        .gradient-bg { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); }
+        .gradient-text { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-secondary { 
+            background: transparent; 
+            border: 2px solid #FFD700; 
+            color: #FFD700; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { 
+            background: #FFD700; 
+            color: #1a1a1a; 
+            transform: translateY(-2px);
+        }
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+        .stats-counter { font-size: 3rem; font-weight: 800; }
+        .feature-icon { 
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 165, 0, 0.05));
+            border-left: 4px solid #FFD700;
+        }
+        
+        /* Creative GUARDBULLDOG Branding */
+        .brand-text {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .brand-text::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            border-radius: 1px;
+        }
+        
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .brand-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCAEOARQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAn/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAgJ/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AqmAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...[802 bytes truncated]');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .brand-logo:hover {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Hero Title Styling */
+        .hero-title {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f2937, #374151, #4b5563);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cyber-accent {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* Notification Banner */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 600;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.5s ease-in-out;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.success {
+            background-color: #28a745;
+        }
+        .notification.error {
+            background-color: #dc3545;
+        }
+        .notification.info {
+            background-color: #17a2b8;
+        }
+
+        /* Chat Support Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-window.open {
+            display: flex;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+        }
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        .message.user {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            margin-left: auto;
+        }
+        .message.support {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        /* Loading animations */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+        .stats-counter { font-size: 3rem; font-weight: 800; }
+        .feature-icon { 
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 165, 0, 0.05));
+            border-left: 4px solid #FFD700;
+        }
+
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-fade-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        const App = () => {
+            const [user, setUser] = useState(null);
+            const [currentPage, setCurrentPage] = useState('home');
+            const [showAuthModal, setShowAuthModal] = useState(false);
+            const [authMode, setAuthMode] = useState('signin');
+            const [signupStep, setSignupStep] = useState('details'); // 'details' or 'verify'
+            const [forgotStep, setForgotStep] = useState('email'); // 'email' or 'reset'
+            const [emailToReset, setEmailToReset] = useState('');
+            const [resetCode, setResetCode] = useState('');
+            const [pendingUser, setPendingUser] = useState(null);
+            const [verificationCode, setVerificationCode] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
+            const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+            const [showChat, setShowChat] = useState(false);
+            const [chatMessages, setChatMessages] = useState([
+                { id: 1, text: "Hello! How can I help you with GUARDBULLDOG today?", sender: "support", timestamp: new Date() }
+            ]);
+            const [currentMessage, setCurrentMessage] = useState('');
+            const [searchQuery, setSearchQuery] = useState('');
+            const [searchResults, setSearchResults] = useState([]);
+            const [newsletterEmail, setNewsletterEmail] = useState('');
+            const [isLoading, setIsLoading] = useState(false);
+
+            const showNotification = (message, type = 'info', duration = 3000) => {
+                setNotification({ show: true, message, type });
+                setTimeout(() => {
+                    setNotification({ show: false, message: '', type: '' });
+                }, duration);
+            };
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('guardbulldog_user');
+                if (savedUser) {
+                    try {
+                        const userData = JSON.parse(savedUser);
+                        setUser(userData);
+                    } catch (e) {
+                        localStorage.removeItem('guardbulldog_user');
+                    }
+                }
+            }, []);
+
+            const handleLogin = (email, password) => {
+                if (!email || !password) {
+                    showNotification('Please enter both email and password', 'error');
+                    return;
+                }
+                const storedUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                const storedUser = storedUsers[email];
+                if (storedUser && storedUser.password === password) {
+                    const userData = {
+                        name: storedUser.name,
+                        email: email,
+                        role: storedUser.role,
+                    };
+                    setUser(userData);
+                    localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                    setShowAuthModal(false);
+                    setCurrentPage('dashboard');
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification('Invalid email or password', 'error');
+                }
+            };
+
+            const handleForgotPasswordRequest = (email) => {
+                const storedUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                if (!storedUsers[email]) {
+                    showNotification('No account found with that email address.', 'error');
+                    return;
+                }
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                setResetCode(code);
+                setEmailToReset(email);
+                setForgotStep('reset');
+                setTimeout(() => {
+                    showNotification(`Your password reset code is: ${code}`, 'info', 5000);
+                }, 500);
+            };
+
+            const handleResetPassword = (code, newPassword, confirmPassword) => {
+                if (code !== resetCode) {
+                    showNotification('Invalid reset code.', 'error');
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    showNotification('Passwords do not match.', 'error');
+                    return;
+                }
+                if (!isPasswordStrong(newPassword)) {
+                    showNotification('Password is not strong enough.', 'error');
+                    return;
+                }
+                const allUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                allUsers[emailToReset].password = newPassword;
+                localStorage.setItem('guardbulldog_users', JSON.stringify(allUsers));
+                showNotification('Password has been reset successfully. Please sign in.', 'success');
+                setAuthMode('signin');
+                setForgotStep('email');
+                setEmailToReset('');
+                setResetCode('');
+            };
+
+            const handleSignup = (name, email, password, confirmPassword) => {
+                if (!name || !email || !password || !confirmPassword) {
+                    showNotification('Please fill in all fields', 'error');
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    showNotification('Passwords do not match', 'error');
+                    return;
+                }
+                if (!isPasswordStrong(password)) {
+                    showNotification('Password is not strong enough.', 'error');
+                    return;
+                }
+                const storedUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                if (storedUsers[email]) {
+                    showNotification('An account with this email already exists.', 'error');
+                    return;
+                }
+                const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+                setVerificationCode(newCode);
+                setPendingUser({ name, email, password, role: 'user' });
+                setSignupStep('verify');
+
+                setTimeout(() => {
+                    showNotification(`Your verification code is: ${newCode}`, 'info', 5000);
+                }, 500);
+            };
+
+            const handleVerifyCode = (code) => {
+                if (code === verificationCode) {
+                    const storedUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                    storedUsers[pendingUser.email] = pendingUser;
+                    localStorage.setItem('guardbulldog_users', JSON.stringify(storedUsers));
+                    const userData = {
+                        name: pendingUser.name,
+                        email: pendingUser.email,
+                        role: pendingUser.role,
+                    };
+                    setUser(userData);
+                    localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                    setShowAuthModal(false);
+                    setSignupStep('details');
+                    setPendingUser(null);
+                    setVerificationCode('');
+                    setCurrentPage('dashboard');
+                    showNotification('Account created and verified successfully!', 'success');
+                } else {
+                    showNotification('Invalid verification code. Please try again.', 'error');
+                }
+            };
+
+            const isPasswordStrong = (password) => {
+                const strongPasswordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+                return strongPasswordRegex.test(password);
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('guardbulldog_user');
+                setCurrentPage('home');
+                showNotification('Logged out successfully!', 'success');
+            };
+
+            // Chat Support Functions
+            const sendMessage = () => {
+                if (!currentMessage.trim()) return;
+                
+                const newMessage = {
+                    id: chatMessages.length + 1,
+                    text: currentMessage,
+                    sender: 'user',
+                    timestamp: new Date()
+                };
+                
+                setChatMessages([...chatMessages, newMessage]);
+                setCurrentMessage('');
+                
+                // Simulate support response
+                setTimeout(() => {
+                    const responses = [
+                        "Thank you for contacting GUARDBULLDOG support. I'm looking into your query.",
+                        "I understand your concern. Let me help you with that.",
+                        "That's a great question! Our AI-powered system can definitely help with that.",
+                        "I'll connect you with our technical team for advanced assistance.",
+                        "Would you like me to schedule a demo to show you our latest features?"
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    const supportMessage = {
+                        id: chatMessages.length + 2,
+                        text: randomResponse,
+                        sender: 'support',
+                        timestamp: new Date()
+                    };
+                    
+                    setChatMessages(prev => [...prev, supportMessage]);
+                }, 1000 + Math.random() * 2000);
+            };
+
+            const toggleChat = () => {
+                setShowChat(!showChat);
+            };
+
+            // Search functionality
+            const performSearch = (query) => {
+                if (!query.trim()) {
+                    setSearchResults([]);
+                    return;
+                }
+
+                const searchableContent = [
+                    { title: 'Email Security Fundamentals', content: 'Learn to identify suspicious emails and protect your inbox', type: 'Education', page: 'education' },
+                    { title: 'Password Security Mastery', content: 'Master the art of creating and managing secure passwords', type: 'Education', page: 'education' },
+                    { title: 'Social Engineering Defense', content: 'Protect yourself from manipulation and social engineering attacks', type: 'Education', page: 'education' },
+                    { title: 'Phishing Detection', content: 'Advanced techniques for identifying phishing attempts', type: 'Education', page: 'education' },
+                    { title: 'Threat Intelligence Feed', content: 'Real-time cybersecurity threats and alerts', type: 'Feature', page: 'threats' },
+                    { title: 'Security Dashboard', content: 'Monitor your security status and training progress', type: 'Feature', page: 'dashboard' },
+                    { title: 'Report Suspicious Activity', content: 'Report phishing emails and security incidents', type: 'Feature', page: 'report' },
+                    { title: 'Contact Security Team', content: 'Get in touch with cybersecurity experts', type: 'Support', page: 'contact' },
+                    { title: 'Frequently Asked Questions', content: 'Common questions about GUARDBULLDOG and cybersecurity', type: 'Support', page: 'faq' },
+                    { title: 'Privacy Policy', content: 'How we protect and use your personal information', type: 'Legal', page: 'privacy' },
+                    { title: 'AI-Powered Detection', content: 'Advanced machine learning algorithms identify sophisticated phishing attacks', type: 'Feature', page: 'home' },
+                    { title: 'Cybersecurity Training', content: 'Comprehensive training modules for all skill levels', type: 'Education', page: 'education' }
+                ];
+
+                const results = searchableContent.filter(item => 
+                    item.title.toLowerCase().includes(query.toLowerCase()) ||
+                    item.content.toLowerCase().includes(query.toLowerCase())
+                );
+
+                setSearchResults(results);
+                setCurrentPage('search');
+            };
+
+            const handleSearch = (e) => {
+                e.preventDefault();
+                performSearch(searchQuery);
+            };
+
+            const handleNewsletterSignup = async (e) => {
+                e.preventDefault();
+                if (!newsletterEmail.trim()) {
+                    showNotification('Please enter a valid email address', 'error');
+                    return;
+                }
+                
+                setIsLoading(true);
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showNotification('Successfully subscribed to security alerts!', 'success');
+                setNewsletterEmail('');
+                setIsLoading(false);
+            };
+
+            const ContactPage = () => {
+                const [formData, setFormData] = useState({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: '',
+                    urgency: 'medium'
+                });
+
+                const handleSubmit = (e) => {
+                    e.preventDefault();
+                    // Simulate form submission
+                    showNotification('Thank you! Your message has been sent. We\'ll respond within 24 hours.', 'success');
+                    setFormData({ name: '', email: '', subject: '', message: '', urgency: 'medium' });
+                };
+
+                const handleChange = (e) => {
+                    setFormData({ ...formData, [e.target.name]: e.target.value });
+                };
+
+                return (
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                        <div className="text-center mb-12">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
+                            <p className="text-xl text-gray-600">Get in touch with our cybersecurity experts</p>
+                        </div>
+
+                        <div className="grid lg:grid-cols-2 gap-12">
+                            {/* Contact Form */}
+                            <div className="bg-white rounded-xl shadow-lg p-8">
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                required
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                required
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                                        <input
+                                            type="text"
+                                            name="subject"
+                                            required
+                                            value={formData.subject}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Urgency Level</label>
+                                        <select
+                                            name="urgency"
+                                            value={formData.urgency}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        >
+                                            <option value="low">Low - General Inquiry</option>
+                                            <option value="medium">Medium - Standard Request</option>
+                                            <option value="high">High - Urgent Security Issue</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                                        <textarea
+                                            name="message"
+                                            required
+                                            rows="6"
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                            placeholder="Please describe your inquiry or security concern..."
+                                        ></textarea>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="w-full btn-primary px-6 py-3 rounded-lg text-lg font-semibold"
+                                    >
+                                        <i className="fas fa-paper-plane mr-2"></i>
+                                        Send Message
+                                    </button>
+                                </form>
+                            </div>
+
+                            {/* Contact Information */}
+                            <div className="space-y-8">
+                                <div className="bg-white rounded-xl shadow-lg p-8">
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-envelope text-yellow-600"></i>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900">Email</h3>
+                                                <p className="text-gray-600">security@bowiestate.edu</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-phone text-yellow-600"></i>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900">Phone</h3>
+                                                <p className="text-gray-600">(301) 860-4000</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-map-marker-alt text-yellow-600"></i>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900">Address</h3>
+                                                <p className="text-gray-600">14000 Jericho Park Rd<br/>Bowie, MD 20715</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-clock text-yellow-600"></i>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900">Support Hours</h3>
+                                                <p className="text-gray-600">Mon-Fri: 8:00 AM - 6:00 PM<br/>Emergency: 24/7</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-8 text-white">
+                                    <h2 className="text-2xl font-bold mb-4">Emergency Security Alert?</h2>
+                                    <p className="mb-4">If you've discovered a security threat or breach, contact us immediately:</p>
+                                    <div className="flex items-center space-x-2 mb-2">
+                                        <i className="fas fa-phone"></i>
+                                        <span className="font-semibold">(301) 860-HELP</span>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <i className="fas fa-envelope"></i>
+                                        <span className="font-semibold">emergency@bowiestate.edu</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const FAQPage = () => {
+                const [openFAQ, setOpenFAQ] = useState(null);
+
+                const faqs = [
+                    {
+                        id: 1,
+                        question: "What is GUARDBULLDOG?",
+                        answer: "GUARDBULLDOG is Bowie State University's comprehensive cybersecurity education and training platform. It provides students, faculty, and staff with the knowledge and tools needed to identify, prevent, and respond to cyber threats."
+                    },
+                    {
+                        id: 2,
+                        question: "How do I report a suspicious email?",
+                        answer: "You can report suspicious emails through our Report page (available when logged in), use the chat support widget, or email us directly at security@bowiestate.edu. Include the full email headers and content when possible."
+                    },
+                    {
+                        id: 3,
+                        question: "Are the training modules mandatory?",
+                        answer: "Yes, all BSU students, faculty, and staff are required to complete the basic cybersecurity training modules annually. Additional specialized modules may be required based on your role and access level."
+                    },
+                    {
+                        id: 4,
+                        question: "What should I do if I think I've been phished?",
+                        answer: "If you suspect you've fallen victim to a phishing attack: 1) Don't panic, 2) Change your passwords immediately, 3) Contact IT Security at (301) 860-HELP, 4) Report the incident through our emergency contact system."
+                    },
+                    {
+                        id: 5,
+                        question: "How often is the threat intelligence updated?",
+                        answer: "Our threat intelligence feed is updated in real-time, 24/7. We monitor global cybersecurity threats and provide immediate alerts for threats specifically targeting educational institutions."
+                    },
+                    {
+                        id: 6,
+                        question: "Can I access GUARDBULLDOG from off-campus?",
+                        answer: "Yes, GUARDBULLDOG is accessible from anywhere with an internet connection. You'll need to log in with your BSU credentials to access personalized features and training modules."
+                    },
+                    {
+                        id: 7,
+                        question: "What browsers are supported?",
+                        answer: "GUARDBULLDOG works best with modern browsers including Chrome, Firefox, Safari, and Edge. We recommend keeping your browser updated for the best security and performance."
+                    },
+                    {
+                        id: 8,
+                        question: "How do I get help with technical issues?",
+                        answer: "For technical support, you can use our chat widget, visit the Contact page, call (301) 860-4000, or email security@bowiestate.edu. Our support team is available Monday-Friday, 8 AM - 6 PM."
+                    }
+                ];
+
+                const toggleFAQ = (id) => {
+                    setOpenFAQ(openFAQ === id ? null : id);
+                };
+
+                return (
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                        <div className="text-center mb-12">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h1>
+                            <p className="text-xl text-gray-600">Find answers to common questions about GUARDBULLDOG</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            {faqs.map((faq) => (
+                                <div key={faq.id} className="bg-white rounded-lg shadow-md">
+                                    <button
+                                        onClick={() => toggleFAQ(faq.id)}
+                                        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none focus:bg-gray-50"
+                                    >
+                                        <span className="font-semibold text-gray-900">{faq.question}</span>
+                                        <i className={`fas ${openFAQ === faq.id ? 'fa-chevron-up' : 'fa-chevron-down'} text-gray-500`}></i>
+                                    </button>
+                                    {openFAQ === faq.id && (
+                                        <div className="px-6 pb-4">
+                                            <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-8 text-white text-center">
+                            <h2 className="text-2xl font-bold mb-4">Still have questions?</h2>
+                            <p className="mb-6">Our cybersecurity experts are here to help you stay safe online.</p>
+                            <button 
+                                onClick={() => setCurrentPage('contact')}
+                                className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                            >
+                                Contact Support
+                            </button>
+                        </div>
+                    </div>
+                );
+            };
+
+            const PrivacyPage = () => (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
+                        <p className="text-lg text-gray-600">Last updated: January 2025</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-8 space-y-8">
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Information We Collect</h2>
+                            <p className="text-gray-600 mb-4">GUARDBULLDOG collects information to provide better cybersecurity education and protection services to the Bowie State University community:</p>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Account information (name, email, BSU ID)</li>
+                                <li>Training progress and completion status</li>
+                                <li>Reported security incidents and phishing attempts</li>
+                                <li>Usage analytics to improve our services</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">How We Use Your Information</h2>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Provide personalized cybersecurity training</li>
+                                <li>Track compliance with university security requirements</li>
+                                <li>Improve threat detection and response capabilities</li>
+                                <li>Send security alerts and educational content</li>
+                                <li>Generate anonymized reports for university administration</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Information Sharing</h2>
+                            <p className="text-gray-600 mb-4">We do not sell or rent your personal information. We may share information only in these circumstances:</p>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>With BSU IT Security for incident response</li>
+                                <li>With university administration for compliance reporting</li>
+                                <li>When required by law or legal process</li>
+                                <li>To protect the safety and security of our users</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Data Security</h2>
+                            <p className="text-gray-600">We implement industry-standard security measures to protect your information, including encryption, secure servers, and regular security audits. However, no system is 100% secure, and we cannot guarantee absolute security.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Your Rights</h2>
+                            <p className="text-gray-600 mb-4">As a BSU community member, you have the right to:</p>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Access your personal information</li>
+                                <li>Request corrections to inaccurate data</li>
+                                <li>Understand how your data is being used</li>
+                                <li>Report privacy concerns to our team</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Contact Us</h2>
+                            <p className="text-gray-600">If you have questions about this Privacy Policy, please contact us at:</p>
+                            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                                <p className="text-gray-700"><strong>Email:</strong> privacy@bowiestate.edu</p>
+                                <p className="text-gray-700"><strong>Phone:</strong> (301) 860-4000</p>
+                                <p className="text-gray-700"><strong>Address:</strong> Bowie State University, IT Security Office</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            );
+
+            const SearchResultsPage = () => (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-4">Search Results</h1>
+                        <p className="text-gray-600">
+                            {searchResults.length > 0 
+                                ? `Found ${searchResults.length} result${searchResults.length === 1 ? '' : 's'} for "${searchQuery}"`
+                                : `No results found for "${searchQuery}"`
+                            }
+                        </p>
+                    </div>
+
+                    {searchResults.length > 0 ? (
+                        <div className="space-y-6">
+                            {searchResults.map((result, index) => (
+                                <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <div className="flex items-center space-x-2 mb-2">
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                    result.type === 'Education' ? 'bg-blue-100 text-blue-800' :
+                                                    result.type === 'Feature' ? 'bg-green-100 text-green-800' :
+                                                    result.type === 'Support' ? 'bg-yellow-100 text-yellow-800' :
+                                                    'bg-gray-100 text-gray-800'
+                                                }`}>
+                                                    {result.type}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-xl font-semibold text-gray-900 mb-2">{result.title}</h3>
+                                            <p className="text-gray-600 mb-4">{result.content}</p>
+                                            <button
+                                                onClick={() => setCurrentPage(result.page)}
+                                                className="text-blue-600 hover:text-blue-800 font-medium"
+                                            >
+                                                View Page <i className="fas fa-arrow-right ml-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12">
+                            <i className="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2">No results found</h3>
+                            <p className="text-gray-600 mb-6">Try adjusting your search terms or browse our main sections:</p>
+                            <div className="flex justify-center space-x-4">
+                                <button onClick={() => setCurrentPage('education')} className="btn-primary px-4 py-2 rounded-lg">Education</button>
+                                <button onClick={() => setCurrentPage('threats')} className="btn-secondary px-4 py-2 rounded-lg">Threats</button>
+                                <button onClick={() => setCurrentPage('faq')} className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">FAQ</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+
+            const TermsPage = () => (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Terms of Service</h1>
+                        <p className="text-lg text-gray-600">Last updated: January 2025</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-8 space-y-8">
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Acceptance of Terms</h2>
+                            <p className="text-gray-600">By accessing and using GUARDBULLDOG, you accept and agree to be bound by the terms and provision of this agreement. This service is provided by Bowie State University's IT Security department.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Authorized Use</h2>
+                            <p className="text-gray-600 mb-4">GUARDBULLDOG is intended for use by Bowie State University students, faculty, and staff for educational and security purposes. You agree to:</p>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Use the service only for legitimate cybersecurity education and training</li>
+                                <li>Complete required security training modules as assigned</li>
+                                <li>Report security incidents promptly and accurately</li>
+                                <li>Maintain the confidentiality of your account credentials</li>
+                                <li>Not attempt to circumvent or disable security features</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Prohibited Activities</h2>
+                            <p className="text-gray-600 mb-4">The following activities are strictly prohibited:</p>
+                            <ul className="list-disc list-inside text-gray-600 space-y-2">
+                                <li>Sharing account credentials with unauthorized individuals</li>
+                                <li>Attempting to access other users' accounts or data</li>
+                                <li>Using the service for any illegal or unauthorized purpose</li>
+                                <li>Interfering with the service's operation or security</li>
+                                <li>Submitting false or misleading information</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Service Availability</h2>
+                            <p className="text-gray-600">While we strive to maintain continuous service availability, GUARDBULLDOG may be temporarily unavailable due to maintenance, updates, or technical issues. We are not liable for any inconvenience caused by service interruptions.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Limitation of Liability</h2>
+                            <p className="text-gray-600">Bowie State University and GUARDBULLDOG shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use this service.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Changes to Terms</h2>
+                            <p className="text-gray-600">We reserve the right to modify these terms at any time. Users will be notified of significant changes through the platform or university email.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Contact Information</h2>
+                            <p className="text-gray-600">For questions about these Terms of Service, contact:</p>
+                            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                                <p className="text-gray-700"><strong>Email:</strong> legal@bowiestate.edu</p>
+                                <p className="text-gray-700"><strong>Phone:</strong> (301) 860-4000</p>
+                                <p className="text-gray-700"><strong>Address:</strong> Bowie State University, Legal Affairs Office</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            );
+
+            const NotFoundPage = () => (
+                <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                    <div className="max-w-md w-full text-center">
+                        <div className="mb-8">
+                            <div className="bulldog-logo mx-auto mb-6" style={{width: '120px', height: '120px', opacity: '0.3'}}></div>
+                            <h1 className="text-9xl font-bold text-gray-300 mb-4">404</h1>
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">Page Not Found</h2>
+                            <p className="text-gray-600 mb-8">
+                                The page you're looking for doesn't exist or has been moved. 
+                                Don't worry, our cybersecurity is still protecting you!
+                            </p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                            <button
+                                onClick={() => setCurrentPage('home')}
+                                className="w-full btn-primary px-6 py-3 rounded-lg text-lg font-semibold"
+                            >
+                                <i className="fas fa-home mr-2"></i>
+                                Go Home
+                            </button>
+                            
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={() => setCurrentPage('education')}
+                                    className="flex-1 btn-secondary px-4 py-2 rounded-lg"
+                                >
+                                    Education
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage('contact')}
+                                    className="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+                                >
+                                    Contact Us
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="mt-8 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p className="text-sm text-yellow-800">
+                                <i className="fas fa-lightbulb mr-2"></i>
+                                <strong>Security Tip:</strong> Always verify URLs before clicking links in emails!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ChatWidget = () => (
+                <div className="chat-widget">
+                    <div className={`chat-window ${showChat ? 'open' : ''}`}>
+                        <div className="chat-header">
+                            <span>GUARDBULLDOG Support</span>
+                            <button onClick={toggleChat} className="text-white">&times;</button>
+                        </div>
+                        <div className="chat-messages">
+                            {chatMessages.map(msg => (
+                                <div key={msg.id} className={`message ${msg.sender}`}>{msg.text}</div>
+                            ))}
+                        </div>
+                        <div className="chat-input-area">
+                            <input 
+                                type="text" 
+                                className="chat-input"
+                                placeholder="Type your message..."
+                                value={currentMessage}
+                                onChange={e => setCurrentMessage(e.target.value)}
+                                onKeyPress={e => e.key === 'Enter' && sendMessage()}
+                            />
+                        </div>
+                    </div>
+                    <button onClick={toggleChat} className="chat-button">
+                        <i className="fas fa-comment-dots"></i>
+                    </button>
+                </div>
+            );
+
+            const AuthModal = () => {
+                if (!showAuthModal) return null;
+
+                const handleFormSubmit = (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    if (authMode === 'signin') {
+                        handleLogin(formData.get('email'), formData.get('password'));
+                    } else if (authMode === 'signup' && signupStep === 'details') {
+                        handleSignup(formData.get('name'), formData.get('email'), formData.get('password'), formData.get('confirmPassword'));
+                    } else if (authMode === 'signup' && signupStep === 'verify') {
+                        handleVerifyCode(formData.get('verificationCode'));
+                    } else if (authMode === 'forgot' && forgotStep === 'email') {
+                        handleForgotPasswordRequest(formData.get('email'));
+                    } else if (authMode === 'forgot' && forgotStep === 'reset') {
+                        handleResetPassword(formData.get('code'), formData.get('password'), formData.get('confirmPassword'));
+                    }
+                };
+
+                return (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-bold text-gray-900">
+                                    {authMode === 'signin' && 'Sign In'}
+                                    {authMode === 'signup' && signupStep === 'details' && 'Create Account'}
+                                    {authMode === 'signup' && signupStep === 'verify' && 'Verify Your Email'}
+                                    {authMode === 'forgot' && 'Reset Password'}
+                                </h2>
+                                <button onClick={() => setShowAuthModal(false)} className="text-gray-500 hover:text-gray-700">
+                                    <i className="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            
+                            <form onSubmit={handleFormSubmit} className="space-y-4">
+                                {authMode === 'signin' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                            <input type="email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <div className="relative">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                            <input type={showPassword ? 'text' : 'password'} name="password" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 top-7 px-3 text-gray-500">
+                                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                            </button>
+                                        </div>
+                                        <div className="text-right text-sm">
+                                            <button type="button" onClick={() => { setAuthMode('forgot'); setForgotStep('email'); }} className="text-yellow-600 hover:text-yellow-800 font-medium">
+                                                Forgot password?
+                                            </button>
+                                        </div>
+                                        <button type="submit" className="w-full btn-primary py-3 rounded-lg font-medium">Sign In</button>
+                                    </>
+                                )}
+
+                                {authMode === 'signup' && signupStep === 'details' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                            <input type="text" name="name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                            <input type="email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <div className="relative">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                            <input type={showPassword ? 'text' : 'password'} name="password" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 top-7 px-3 text-gray-500">
+                                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                            <input type="password" name="confirmPassword" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <button type="submit" className="w-full btn-primary py-3 rounded-lg font-medium">Create Account</button>
+                                    </>
+                                )}
+
+                                {authMode === 'signup' && signupStep === 'verify' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Verification Code</label>
+                                            <p className="text-xs text-gray-500 mb-2">A 6-digit code was sent to your email. Please enter it below.</p>
+                                            <input type="text" name="verificationCode" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <button type="submit" className="w-full btn-primary py-3 rounded-lg font-medium">Verify & Sign Up</button>
+                                        <div className="text-center text-sm">
+                                            <p className="text-gray-600">Didn't receive a code?
+                                                <button type="button" onClick={() => handleSignup(pendingUser.name, pendingUser.email, pendingUser.password, pendingUser.password)} className="text-yellow-600 hover:text-yellow-800 ml-1 font-medium">
+                                                    Resend Code
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </>
+                                )}
+
+                                {authMode === 'forgot' && forgotStep === 'email' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                            <input type="email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <button type="submit" className="btn-primary w-full py-3 rounded-lg">Send Reset Code</button>
+                                    </>
+                                )}
+
+                                {authMode === 'forgot' && forgotStep === 'reset' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Reset Code</label>
+                                            <input type="text" name="code" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <div className="relative">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                                            <input type={showPassword ? 'text' : 'password'} name="password" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 top-7 px-3 text-gray-500">
+                                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                                            <input type="password" name="confirmPassword" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" />
+                                        </div>
+                                        <button type="submit" className="btn-primary w-full py-3 rounded-lg">Reset Password</button>
+                                    </>
+                                )}
+                            </form>
+                            
+                            <div className="mt-6 text-center text-sm">
+                                <p className="text-gray-600">
+                                    {authMode === 'signin' && "Don't have an account?"}
+                                    {authMode === 'signup' && 'Already have an account?'}
+                                    {authMode === 'forgot' && 'Remember your password?'}
+                                    <button 
+                                        onClick={() => setAuthMode(authMode === 'signin' ? 'signup' : 'signin')}
+                                        className="text-yellow-600 hover:text-yellow-800 ml-1 font-medium"
+                                    >
+                                        {authMode === 'signin' ? 'Sign Up' : 'Sign In'}
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const Breadcrumb = () => {
+                const getBreadcrumbs = () => {
+                    const breadcrumbs = [{ name: 'Home', page: 'home' }];
+                    
+                    switch (currentPage) {
+                        case 'about':
+                            breadcrumbs.push({ name: 'About Us', page: 'about' });
+                            break;
+                        case 'contact':
+                            breadcrumbs.push({ name: 'Contact Us', page: 'contact' });
+                            break;
+                        case 'faq':
+                            breadcrumbs.push({ name: 'FAQ', page: 'faq' });
+                            break;
+                        case 'privacy':
+                            breadcrumbs.push({ name: 'Privacy Policy', page: 'privacy' });
+                            break;
+                        case 'terms':
+                            breadcrumbs.push({ name: 'Terms of Service', page: 'terms' });
+                            break;
+                        case 'search':
+                            breadcrumbs.push({ name: 'Search Results', page: 'search' });
+                            break;
+                        case 'education':
+                            breadcrumbs.push({ name: 'Education', page: 'education' });
+                            break;
+                        case 'dashboard':
+                            breadcrumbs.push({ name: 'Dashboard', page: 'dashboard' });
+                            break;
+                        case 'threats':
+                            breadcrumbs.push({ name: 'Threat Feed', page: 'threats' });
+                            break;
+                        case 'report':
+                            breadcrumbs.push({ name: 'Email Scanner', page: 'report' });
+                            break;
+                        case 'admin':
+                            breadcrumbs.push({ name: 'Admin Panel', page: 'admin' });
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    return breadcrumbs;
+                };
+
+                const breadcrumbs = getBreadcrumbs();
+                
+                if (currentPage === 'home' || breadcrumbs.length <= 1) return null;
+
+                return (
+                    <div className="bg-gray-100 border-b">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                            <nav className="flex" aria-label="Breadcrumb">
+                                <ol className="flex items-center space-x-2">
+                                    {breadcrumbs.map((crumb, index) => (
+                                        <li key={index} className="flex items-center">
+                                            {index > 0 && (
+                                                <i className="fas fa-chevron-right text-gray-400 mx-2 text-sm"></i>
+                                            )}
+                                            {index === breadcrumbs.length - 1 ? (
+                                                <span className="text-gray-600 font-medium">{crumb.name}</span>
+                                            ) : (
+                                                <button
+                                                    onClick={() => setCurrentPage(crumb.page)}
+                                                    className="text-blue-600 hover:text-blue-800 font-medium"
+                                                >
+                                                    {crumb.name}
+                                                </button>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                );
+            };
+
+            const Navbar = () => {
+                const [isScrolled, setIsScrolled] = useState(false);
+
+                useEffect(() => {
+                    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+                    window.addEventListener('scroll', handleScroll);
+                    return () => window.removeEventListener('scroll', handleScroll);
+                }, []);
+
+                return (
+                    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setCurrentPage('home')}>
+                                    <div className="bulldog-logo"></div>
+                                    <span className="text-2xl font-bold text-gray-900">GUARDBULLDOG</span>
+                                </div>
+                                <div className="hidden md:flex items-center space-x-8">
+                                    <button onClick={() => setCurrentPage('home')} className="text-gray-700 hover:text-yellow-600 font-medium">Overview</button>
+                                    <button onClick={() => setCurrentPage('education')} className="text-gray-700 hover:text-yellow-600 font-medium">Education</button>
+                                    <button onClick={() => setCurrentPage('threats')} className="text-gray-700 hover:text-yellow-600 font-medium">Threats</button>
+                                    <button onClick={() => setCurrentPage('contact')} className="text-gray-700 hover:text-yellow-600 font-medium">Contact</button>
+                                    {user ? (
+                                        <button onClick={() => setCurrentPage('dashboard')} className="btn-primary px-6 py-2 rounded-lg">Dashboard</button>
+                                    ) : (
+                                        <button onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }} className="btn-primary px-6 py-2 rounded-lg">Get Started</button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                );
+            };
+
+            // Threats Page Component - Modern & Interactive
+            const ThreatsPage = () => {
+                const [filter, setFilter] = useState('all');
+
+                const threats = [
+                    { id: 1, type: 'phishing', severity: 'high', origin: 'Russia', target: 'BSU Faculty', timestamp: '2 mins ago', summary: 'Sophisticated phishing campaign impersonating IT support.' },
+                    { id: 2, type: 'malware', severity: 'critical', origin: 'North Korea', target: 'Student Financial Aid', timestamp: '15 mins ago', summary: 'New ransomware variant detected in email attachments.' },
+                    { id: 3, type: 'dos', severity: 'medium', origin: 'China', target: 'BSU Main Website', timestamp: '1 hour ago', summary: 'DDoS attack causing intermittent service disruptions.' },
+                    { id: 4, type: 'phishing', severity: 'high', origin: 'Iran', target: 'University Administration', timestamp: '3 hours ago', summary: 'Spear-phishing attempt targeting high-level administrators.' },
+                    { id: 5, type: 'malware', severity: 'low', origin: 'USA', target: 'Campus Wi-Fi Network', timestamp: '5 hours ago', summary: 'Adware detected on several devices connected to public Wi-Fi.' },
+                    { id: 6, type: 'insider', severity: 'critical', origin: 'Internal', target: 'Student Records Database', timestamp: '8 hours ago', summary: 'Unauthorized access to student records from an internal account.' },
+                ];
+
+                const filteredThreats = threats.filter(t => filter === 'all' || t.type === filter);
+
+                const getSeverityClass = (severity) => {
+                    switch (severity) {
+                        case 'critical': return 'bg-red-500 text-white';
+                        case 'high': return 'bg-orange-500 text-white';
+                        case 'medium': return 'bg-yellow-500 text-gray-900';
+                        case 'low': return 'bg-green-500 text-white';
+                        default: return 'bg-gray-500 text-white';
+                    }
+                };
+
+                return (
+                    <div className="bg-gray-900 text-white min-h-screen p-8 font-sans">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                {/* Left Column: Threat Level & Map */}
+                                <div className="lg:col-span-1 space-y-8">
+                                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-yellow-400/30">
+                                        <h2 className="text-2xl font-bold text-yellow-400 mb-4">CURRENT THREAT LEVEL</h2>
+                                        <div className="text-7xl font-bold text-center text-red-500">CRITICAL</div>
+                                        <div className="w-full bg-gray-700 rounded-full h-4 mt-4">
+                                            <div className="bg-red-500 h-4 rounded-full" style={{ width: '95%' }}></div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg">
+                                        <h2 className="text-xl font-bold text-yellow-400 mb-4">THREAT ORIGINS</h2>
+                                        {/* Placeholder for a map */}
+                                        <div className="h-64 bg-gray-700 rounded-lg flex items-center justify-center">
+                                            <p className="text-gray-400">[Interactive World Map]</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Column: Real-time Feed */}
+                                <div className="lg:col-span-2 bg-gray-800 p-6 rounded-xl shadow-lg">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h2 className="text-2xl font-bold text-yellow-400">REAL-TIME THREAT FEED</h2>
+                                        <div className="flex space-x-2">
+                                            <button onClick={() => setFilter('all')} className={`px-3 py-1 rounded-md text-sm font-medium ${filter === 'all' ? 'bg-yellow-500 text-gray-900' : 'bg-gray-700'}`}>All</button>
+                                            <button onClick={() => setFilter('phishing')} className={`px-3 py-1 rounded-md text-sm font-medium ${filter === 'phishing' ? 'bg-yellow-500 text-gray-900' : 'bg-gray-700'}`}>Phishing</button>
+                                            <button onClick={() => setFilter('malware')} className={`px-3 py-1 rounded-md text-sm font-medium ${filter === 'malware' ? 'bg-yellow-500 text-gray-900' : 'bg-gray-700'}`}>Malware</button>
+                                            <button onClick={() => setFilter('dos')} className={`px-3 py-1 rounded-md text-sm font-medium ${filter === 'dos' ? 'bg-yellow-500 text-gray-900' : 'bg-gray-700'}`}>DoS</button>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {filteredThreats.map(threat => (
+                                            <div key={threat.id} className="bg-gray-900 p-4 rounded-lg border-l-4 border-yellow-400 hover:bg-gray-700 transition-colors duration-300">
+                                                <div className="flex justify-between items-start">
+                                                    <div>
+                                                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${getSeverityClass(threat.severity)}`}>{threat.severity.toUpperCase()}</span>
+                                                        <p className="text-lg font-semibold mt-2">{threat.summary}</p>
+                                                        <p className="text-sm text-gray-400">Target: {threat.target}</p>
+                                                    </div>
+                                                    <div className="text-right text-sm text-gray-500">
+                                                        <p>{threat.origin}</p>
+                                                        <p>{threat.timestamp}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            // Dashboard Component
+            const Dashboard = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user.name}!</h1>
+                        <p className="text-gray-600">Your cybersecurity training dashboard</p>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onClick={() => setCurrentPage('education')}>
+                            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-graduation-cap text-xl text-blue-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Training Modules</h3>
+                            <p className="text-gray-600">Complete interactive cybersecurity lessons</p>
+                        </div>
+                        
+                        
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onClick={() => setCurrentPage('report')}>
+                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-shield-alt text-xl text-green-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Scan Email</h3>
+                            <p className="text-gray-600">Analyze suspicious emails for threats</p>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const AdminPage = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Admin Panel</h1>
+                        <p className="text-xl text-gray-600">Manage users, monitor threats, and oversee system security</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div className="bg-blue-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-users text-3xl text-blue-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-blue-600">Total Users</p>
+                                    <p className="text-2xl font-bold text-blue-900">1,247</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-red-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-exclamation-triangle text-3xl text-red-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-red-600">Threats Blocked</p>
+                                    <p className="text-2xl font-bold text-red-900">89</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-green-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-graduation-cap text-3xl text-green-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-green-600">Training Complete</p>
+                                    <p className="text-2xl font-bold text-green-900">78%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-yellow-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-flag text-3xl text-yellow-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-yellow-600">Reports Today</p>
+                                    <p className="text-2xl font-bold text-yellow-900">12</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-6">
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">System Overview</h2>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="bg-gray-50 rounded-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                                <div className="space-y-3">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">Phishing email blocked from external@suspicious.com</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">User completed phishing awareness training</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">New phishing report submitted</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">System Health</h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">Email Scanner</span>
+                                        <span className="text-sm font-medium text-green-600">Online</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">URL Filter</span>
+                                        <span className="text-sm font-medium text-green-600">Online</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">AI Detection</span>
+                                        <span className="text-sm font-medium text-green-600">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Home Page Component
+            const HomePage = () => (
+                <section className="relative min-h-screen flex items-center hero-pattern">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <div className="mb-6">
+                                    <span className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-semibold">
+                                        🛡️ Advanced Phishing Protection
+                                    </span>
+                                </div>
+                                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                                    AI-Powered Phishing 
+                                    <span className="gradient-text block">Defense & Training</span>
+                                    for Bowie State University
+                                </h1>
+                                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                                    Advanced machine learning algorithms detect sophisticated phishing attacks that evade traditional defenses. 
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <button onClick={() => setCurrentPage('education')} className="btn-primary px-8 py-4 rounded-lg text-lg">
+                                        <i className="fas fa-rocket mr-2"></i>
+                                        Start Your Training
+                                    </button>
+                                    <button onClick={() => setCurrentPage('threats')} className="btn-secondary px-8 py-4 rounded-lg text-lg">
+                                        <i className="fas fa-broadcast-tower mr-2"></i>
+                                        View Threat Feed
+                                    </button>
+                                </div>
+                                <div className="mt-8 flex items-center space-x-6 text-sm text-gray-500">
+                                    <div className="flex items-center">
+                                        <i className="fas fa-check-circle text-green-500 mr-2"></i>
+                                        99.9% detection accuracy
+                                    </div>
+                                    <div className="flex items-center">
+                                        <i className="fas fa-check-circle text-green-500 mr-2"></i>
+                                        24/7 support
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative">
+                                <div className="bg-white rounded-2xl shadow-2xl p-8">
+                                    <div className="bulldog-logo mx-auto mb-6" style={{width: '120px', height: '120px'}}></div>
+                                    <div className="text-center">
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Trusted by Educational Institutions</h3>
+                                        <div className="grid grid-cols-3 gap-4 text-center">
+                                            <div>
+                                                <div className="stats-counter gradient-text">99.9%</div>
+                                                <div className="text-sm text-gray-600">Detection Rate</div>
+                                            </div>
+                                            <div>
+                                                <div className="stats-counter gradient-text">10min</div>
+                                                <div className="text-sm text-gray-600">Setup Time</div>
+                                            </div>
+                                            <div>
+                                                <div className="stats-counter gradient-text">24/7</div>
+                                                <div className="text-sm text-gray-600">Support</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+
+            const FeaturesSection = () => {
+                const [featuresRef, isInView] = useInView(0.1);
+                
+                const features = [
+                    { icon: 'fas fa-brain', title: 'AI-Powered Detection', description: 'Advanced machine learning algorithms identify sophisticated phishing attacks that bypass traditional email security.' },
+                    { icon: 'fas fa-robot', title: 'Behavioral Analysis', description: 'Continuous learning from attack patterns to predict and prevent emerging AI-generated phishing threats.' },
+                    { icon: 'fas fa-shield-alt', title: 'Real-Time Protection', description: 'Instant threat detection and automatic remediation across all email platforms and communication channels.' },
+                    { icon: 'fas fa-graduation-cap', title: 'Interactive Training', description: 'Comprehensive phishing awareness training modules tailored for educational environments.' },
+                    { icon: 'fas fa-chart-line', title: 'Advanced Analytics', description: 'Detailed reporting and analytics to assess risk profiles and track security improvements.' },
+                    { icon: 'fas fa-users', title: 'Expert Support', description: 'Dedicated support team committed to your success with 24/7 availability and rapid response.' }
+                ];
+
+                return (
+                    <section ref={featuresRef} id="features" className="py-20 bg-white">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-gray-900 mb-4">Advanced Features for <span className="gradient-text">Complete Protection</span></h2>
+                                <p className="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive phishing protection designed specifically for educational institutions</p>
+                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {features.map((feature, index) => (
+                                    <div key={index} className={`bg-gray-50 rounded-xl p-8 card-hover animate-fade-up stagger-${index + 1} ${isInView ? 'in-view' : ''}`}>
+                                        <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center mb-6">
+                                            <i className={`${feature.icon} text-2xl text-white`}></i>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
+                                        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                );
+            };
+
+            const useInView = (threshold = 0.1) => {
+                const [isInView, setIsInView] = useState(false);
+                const ref = useRef(null);
+
+                useEffect(() => {
+                    const observer = new IntersectionObserver(
+                        ([entry]) => {
+                            if (entry.isIntersecting) {
+                                setIsInView(true);
+                                observer.disconnect();
+                            }
+                        },
+                        { threshold }
+                    );
+
+                    if (ref.current) {
+                        observer.observe(ref.current);
+                    }
+
+                    return () => observer.disconnect();
+                }, [threshold]);
+
+                return [ref, isInView];
+            };
+
+            const useCountUp = (end, duration = 2000) => {
+                const [count, setCount] = useState(0);
+                const frameRate = 1000 / 60;
+                const totalFrames = Math.round(duration / frameRate);
+
+                useEffect(() => {
+                    let frame = 0;
+                    const counter = setInterval(() => {
+                        frame++;
+                        const progress = frame / totalFrames;
+                        setCount(end * progress);
+
+                        if (frame === totalFrames) {
+                            clearInterval(counter);
+                            setCount(end);
+                        }
+                    }, frameRate);
+                }, [end, duration, frameRate, totalFrames]);
+
+                return Math.floor(count);
+            };
+
+            const StatCard = ({ number, label, icon, isVisible }) => {
+                const cleanNumber = parseFloat(number.replace(/[^\d.]/g, ''));
+                const count = useCountUp(isVisible ? cleanNumber : 0, 2000);
+
+                const displayValue = number.includes('%') ? `${count.toFixed(1)}%` : 
+                                     number.includes('<') ? `<${count}ms` : 
+                                     number.includes('/') ? `24/7` : count;
+
+                return (
+                    <div className="text-center">
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i className={`${icon} text-3xl text-gray-900`}></i>
+                        </div>
+                        <div className="stats-counter text-gray-900 mb-2">{displayValue}</div>
+                        <div className="text-gray-800 font-medium">{label}</div>
+                    </div>
+                );
+            };
+
+            const StatsSection = () => {
+                const statsRef = useRef(null);
+                const [isVisible, setIsVisible] = useState(false);
+
+                const stats = [
+                    {number: '99.9%', label: 'AI Detection Accuracy', icon: 'fas fa-brain'},
+                    {number: '<10ms', label: 'Real-time Response', icon: 'fas fa-bolt'},
+                    {number: '82%', label: 'Professionals Concerned About AI Phishing', icon: 'fas fa-exclamation-triangle'},
+                    {number: '24/7', label: 'AI-Powered Monitoring', icon: 'fas fa-shield-alt'} 
+                ];
+
+                useEffect(() => {
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting) {
+                            setIsVisible(true);
+                            observer.disconnect();
+                        }
+                    }, { threshold: 0.1 });
+
+                    if (statsRef.current) {
+                        observer.observe(statsRef.current);
+                    }
+
+                    return () => observer.disconnect();
+                }, []);
+
+                return (
+                    <section ref={statsRef} className="py-20 gradient-bg">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-gray-900 mb-4">Trusted by Educational Leaders</h2>
+                                <p className="text-xl text-gray-800">Industry-leading performance metrics that speak for themselves</p>
+                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                {stats.map((stat, index) => (
+                                    <StatCard key={index} {...stat} isVisible={isVisible} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                );
+            };
+
+            const TestimonialsSection = () => {
+                const [testimonialsRef, isInView] = useInView(0.1);
+                
+                const testimonials = [
+                    { quote: "GUARDBULLDOG has transformed our cybersecurity posture. The AI-driven detection caught threats that our previous solution missed entirely.", author: "Dr. Sarah Johnson", title: "IT Director, Bowie State University", rating: 5 },
+                    { quote: "The training modules are exceptional. Our staff engagement with phishing awareness increased by 300% after implementing GUARDBULLDOG.", author: "Michael Chen", title: "Security Administrator", rating: 5 },
+                    { quote: "Setup was incredibly fast and the ongoing support is outstanding. This is exactly what educational institutions need for comprehensive protection.", author: "Lisa Rodriguez", title: "Network Security Manager", rating: 5 }
+                ];
+
+                return (
+                    <section ref={testimonialsRef} id="testimonials" className="py-20 bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our <span className="gradient-text">Customers Say</span></h2>
+                                <p className="text-xl text-gray-600">Hear from security professionals who trust GUARDBULLDOG</p>
+                            </div>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                {testimonials.map((testimonial, index) => (
+                                    <div key={index} className={`testimonial-card rounded-xl p-8 card-hover animate-fade-up stagger-${index + 1} ${isInView ? 'in-view' : ''}`}>
+                                        <div className="flex mb-4">
+                                            {[...Array(testimonial.rating)].map((_, i) => (
+                                                <i key={i} className="fas fa-star text-yellow-500"></i>
+                                            ))}
+                                        </div>
+                                        <p className="text-gray-700 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
+                                        <div>
+                                            <div className="font-bold text-gray-900">{testimonial.author}</div>
+                                            <div className="text-gray-600 text-sm">{testimonial.title}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                );
+            };
+
+            const CTASection = () => (
+                <section className="py-20 bg-gray-900">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                        <h2 className="text-4xl font-bold text-white mb-6">Ready to Deploy AI-Powered Protection?</h2>
+                        <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">Join leading educational institutions using AI to combat sophisticated phishing attacks. Download our white paper on AI phishing threats and deploy advanced protection today.</p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button className="btn-primary px-8 py-4 rounded-lg text-lg">
+                                <i className="fas fa-download mr-2"></i>
+                                Download White Paper
+                            </button>
+                            <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg text-lg hover:bg-white hover:text-gray-900 transition-all duration-300">
+                                <i className="fas fa-phone mr-2"></i>
+                                Schedule Demo
+                            </button>
+                        </div>
+                        <div className="mt-8 text-gray-400 text-sm">No credit card required • 30-day free trial • Cancel anytime</div>
+                    </div>
+                </section>
+            );
+
+            // Education Page Component with Interactive Lessons & Quizzes
+            const EducationPage = () => {
+                const [selectedModule, setSelectedModule] = useState(null);
+                const [completedModules, setCompletedModules] = useState(() => {
+                    const allUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                    return allUsers[user?.email]?.completedModules || [];
+                });
+
+                const educationModules = [
+                    {
+                        id: 1,
+                        title: "Email Security Fundamentals",
+                        icon: "fas fa-envelope-open-text",
+                        level: "Beginner",
+                        duration: "15 min",
+                        levelColor: "text-green-600",
+                        description: "Learn to identify suspicious emails and protect your inbox.",
+                        lesson: {
+                            steps: [
+                                { title: 'Introduction', content: 'Email is the #1 threat vector for cyber attacks. In this lesson, you will learn the fundamental skills to identify and avoid phishing emails.' },
+                                { title: 'Key Concepts', content: 'Pay attention to these red flags: 1) The sender’s email address looks suspicious. 2) The email creates a sense of urgency. 3) It contains unexpected attachments or links. 4) The greeting is generic.' },
+                                { title: 'Real-world Scenario', content: 'Imagine receiving an email from “B0wie State IT” stating your account will be suspended in 24 hours unless you click a link to verify your password. This is a classic phishing attempt.' },
+                            ],
+                            quiz: [
+                                { question: "What is the most reliable way to verify an urgent request from a known contact?", options: ["Click the link to see if it's legitimate", "Reply to the email to ask for confirmation", "Contact the person through a separate, trusted channel (e.g., phone call)", "Check the sender's name"], correct: 2 },
+                                { question: "If you hover your mouse over a link and the destination URL looks different, you should...", options: ["Click it to investigate further", "Assume it's safe and click it", "Avoid clicking and report the email", "Copy and paste the link into your browser"], correct: 2 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 2,
+                        title: "Password Security Mastery",
+                        icon: "fas fa-key",
+                        level: "Beginner",
+                        duration: "10 min",
+                        levelColor: "text-green-600",
+                        description: "Master the art of creating and managing secure passwords.",
+                        lesson: {
+                            steps: [
+                                { title: 'Introduction', content: 'Strong, unique passwords are your first line of defense. This module covers how to create and manage them effectively.' },
+                                { title: 'Key Concepts', content: 'A strong password is long (12+ characters), complex (upper/lowercase, numbers, symbols), and unique to each account. Use a password manager to keep track of them.' },
+                                { title: 'Two-Factor Authentication (2FA)', content: '2FA adds a second layer of security, like a code from your phone, in addition to your password. Always enable it when available.' }
+                            ],
+                            quiz: [
+                                { question: "Which of the following is the strongest password?", options: ["Password123", "BowieStateBulldogs", "MyD*gB@rksL0ud!", "12345678"], correct: 2 },
+                                { question: "What is the primary benefit of Two-Factor Authentication (2FA)?", options: ["It makes your password shorter", "It adds an extra layer of security beyond just a password", "It logs you in automatically", "It is only for banking websites"], correct: 1 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 3,
+                        title: "Social Engineering Defense",
+                        icon: "fas fa-users",
+                        level: "Intermediate",
+                        duration: "20 min",
+                        levelColor: "text-yellow-600",
+                        description: "Recognize and resist psychological manipulation tactics.",
+                        lesson: {
+                            steps: [
+                                { title: 'Introduction', content: 'Social engineering attacks exploit human psychology. Attackers manipulate you into divulging confidential information or performing actions.' },
+                                { title: 'Common Tactics', content: 'Watch out for tactics like pretexting (creating a fake story), baiting (offering something enticing), and quid pro quo (offering a service for information).' },
+                                { title: 'Defense Strategy', content: 'The best defense is skepticism. Always question unsolicited requests for information. Verify the person’s identity through a trusted, separate communication channel before proceeding.' }
+                            ],
+                            quiz: [
+                                { question: "An attacker calls you pretending to be from IT support to trick you into giving up your password. What is this tactic called?", options: ["Baiting", "Phishing", "Pretexting", "Malware"], correct: 2 },
+                                { question: "What is the best way to handle a suspicious phone call asking for your personal information?", options: ["Provide the information to be helpful", "Ask them to prove who they are", "Hang up and call the organization back using an official number", "Give them fake information"], correct: 2 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 4,
+                        title: "Safe Web Browsing",
+                        icon: "fas fa-globe",
+                        level: "Beginner",
+                        duration: "15 min",
+                        levelColor: "text-green-600",
+                        description: "Navigate the internet safely and identify malicious websites.",
+                        lesson: {
+                            steps: [
+                                { title: 'Introduction', content: 'The web can be a dangerous place. This module teaches you how to browse safely and spot dangerous websites.' },
+                                { title: 'Look for HTTPS', content: 'Always check for \"https://\" and a padlock icon in your browser’s address bar on any site where you enter sensitive information. This encrypts your data.' },
+                                { title: 'Spotting Fake Sites', content: 'Be wary of sites with poor grammar, low-quality images, and suspicious domain names (e.g., `micros0ft.com`). These are red flags for malicious sites.' }
+                            ],
+                            quiz: [
+                                { question: "What does HTTPS ensure?", options: ["The website is fast", "The website has no ads", "The connection between your browser and the website is encrypted", "The website is owned by the government"], correct: 2 },
+                                { question: "Which of these domain names is most likely malicious?", options: ["bowiestate.edu", "amazon.com", "google.com", "apple-support.net"], correct: 3 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 5,
+                        title: "Mobile Security Essentials",
+                        icon: "fas fa-mobile-alt",
+                        level: "Intermediate",
+                        duration: "12 min",
+                        levelColor: "text-yellow-600",
+                        description: "Protect your mobile devices from phishing and malware.",
+                        lesson: {
+                            steps: [
+                                { title: 'App Security', content: 'Only download apps from official stores like the Apple App Store or Google Play Store. Always review app permissions before installing.' },
+                                { title: 'Public Wi-Fi Risks', content: 'Public Wi-Fi networks are often unsecured. Avoid accessing sensitive information (like banking) on public Wi-Fi. Use a VPN for an extra layer of security.' },
+                                { title: 'Keep Updated', content: 'Always install operating system and app updates promptly. These updates often contain critical security patches that protect you from the latest threats.' }
+                            ],
+                            quiz: [
+                                { question: "Where is the safest place to download mobile apps?", options: ["From a link in an email", "Official app stores (Google Play, Apple App Store)", "Third-party websites", "Advertisements"], correct: 1 },
+                                { question: "What is a major risk of using public Wi-Fi?", options: ["It can be slow", "It uses too much battery", "Your data can be intercepted by attackers on the same network", "It is usually expensive"], correct: 2 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 6,
+                        title: "Data Protection & Privacy",
+                        icon: "fas fa-database",
+                        level: "Advanced",
+                        duration: "20 min",
+                        levelColor: "text-red-600",
+                        description: "Learn how to protect sensitive information and personal data.",
+                        lesson: {
+                            steps: [
+                                { title: 'Understanding Your Data', content: 'Be mindful of what personal information you share online. Your data is valuable and can be used for identity theft or targeted attacks.' },
+                                { title: 'Secure Data Disposal', content: 'When disposing of old devices, make sure to securely wipe the data. Simply deleting files is not enough; use a proper data destruction tool.' },
+                                { title: 'Privacy Settings', content: 'Regularly review the privacy settings on your social media and other online accounts. Limit the amount of information that is publicly visible.' }
+                            ],
+                            quiz: [
+                                { question: "What should you do before selling or donating an old computer?", options: ["Delete your files", "Log out of your accounts", "Securely wipe the hard drive", "Leave it as is"], correct: 2 },
+                                { question: "Why is it important to manage your privacy settings on social media?", options: ["To get more likes", "To limit the amount of personal information available to attackers", "To make your profile look better", "To hide from your friends"], correct: 1 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 7,
+                        title: "Advanced Threat Detection",
+                        icon: "fas fa-search",
+                        level: "Expert",
+                        duration: "25 min",
+                        levelColor: "text-purple-600",
+                        description: "Master advanced techniques for identifying sophisticated cyber threats.",
+                        lesson: {
+                            steps: [
+                                { title: 'Behavioral Analysis', content: 'Learn to recognize unusual patterns in system behavior that may indicate a security breach or malware infection.' },
+                                { title: 'Network Monitoring', content: 'Understand how to monitor network traffic for suspicious activities and unauthorized access attempts.' },
+                                { title: 'Incident Response', content: 'Develop skills to respond quickly and effectively when a security incident is detected, minimizing damage and recovery time.' }
+                            ],
+                            quiz: [
+                                { question: "What is the first step when you suspect a security breach?", options: ["Ignore it if unsure", "Immediately disconnect from the network", "Continue working normally", "Share the information on social media"], correct: 1 },
+                                { question: "Which behavior might indicate malware infection?", options: ["Faster computer performance", "Unexpected network activity", "Improved battery life", "Cleaner desktop"], correct: 1 }
+                            ]
+                        }
+                    },
+                    {
+                        id: 8,
+                        title: "Incident Response & Recovery",
+                        icon: "fas fa-ambulance",
+                        level: "Expert",
+                        duration: "30 min",
+                        levelColor: "text-purple-600",
+                        description: "Learn professional incident response procedures and recovery strategies.",
+                        lesson: {
+                            steps: [
+                                { title: 'Incident Classification', content: 'Learn to properly classify security incidents by severity and type to ensure appropriate response procedures are followed.' },
+                                { title: 'Containment Strategies', content: 'Master techniques to contain security breaches and prevent further damage while preserving evidence for investigation.' },
+                                { title: 'Recovery Planning', content: 'Develop comprehensive recovery plans that restore normal operations while implementing lessons learned to prevent future incidents.' }
+                            ],
+                            quiz: [
+                                { question: "What is the primary goal of incident containment?", options: ["To fix the problem immediately", "To prevent further damage while preserving evidence", "To hide the incident from management", "To restart all systems"], correct: 1 },
+                                { question: "When should you involve law enforcement in a security incident?", options: ["Never", "Only for minor incidents", "When criminal activity is suspected", "Only after full recovery"], correct: 2 }
+                            ]
+                        }
+                    }
+                ];
+
+                const simulations = [
+                    {
+                        id: 1, from: 'IT Services <it-support@bowiestate-edu.net>', subject: 'Action Required: Your Mailbox is Almost Full',
+                        body: 'Dear Faculty/Student,\n\nYour university mailbox is currently at 98% capacity and you will soon be unable to send or receive messages. To avoid disruption, please click the link below to upgrade your storage immediately.\n\n[Link: http://bowiestate-storage-upgrade.com/verify]\n\nThank you,\nBSU IT Department',
+                        isPhishing: true, explanation: 'The sender email domain is incorrect (`bowiestate-edu.net` instead of `bowiestate.edu`), the link goes to an unofficial URL, and it uses urgent language to pressure you into acting quickly.'
+                    },
+                    {
+                        id: 2, from: 'Bowie State Library <library-no-reply@bowiestate.edu>', subject: 'Reminder: Book Due Soon',
+                        body: 'Hello,\n\nThis is a friendly reminder that the following book is due for return soon: \"Introduction to Cybersecurity\". Please return it to the main library by Friday to avoid any late fees.\n\nYou can check your account status by logging into the official library portal.\n\nSincerely,\nThe BSU Library Team',
+                        isPhishing: false, explanation: 'This email is safe. The sender address is official, it does not ask you to click a suspicious link, and it provides information without creating false urgency.'
+                    },
+                    {
+                        id: 3, from: 'University Financial Aid <finaid@university-support.com>', subject: 'Unclaimed Financial Aid Award',
+                        body: 'Good news!\n\nYou have an unclaimed financial aid award of $2,500. To claim your funds, you must log in to the portal below and verify your banking information within 48 hours.\n\n[Link: http://claim-your-award-now.net/bowiestate]\n\nFailure to do so will result in forfeiture of the award.\n\nRegards,\nFinancial Aid Office',
+                        isPhishing: true, explanation: 'This is a phishing attempt. The sender domain is not official, it promises money to lure you in (a common tactic), and it asks for sensitive banking information with a strict deadline.'
+                    }
+                ];
+
+                const completeModule = (moduleId) => {
+                    if (!completedModules.includes(moduleId)) {
+                        const updatedModules = [...completedModules, moduleId];
+                        setCompletedModules(updatedModules);
+                        
+                        const allUsers = JSON.parse(localStorage.getItem('guardbulldog_users')) || {};
+                        if (!allUsers[user.email]) allUsers[user.email] = {};
+                        allUsers[user.email].completedModules = updatedModules;
+                        localStorage.setItem('guardbulldog_users', JSON.stringify(allUsers));
+                    }
+                    setSelectedModule(null); // Return to module list
+                };
+
+                const ModuleLesson = ({ module }) => {
+                    const [lessonStep, setLessonStep] = useState(0);
+                    const [answers, setAnswers] = useState({});
+                    const isQuiz = lessonStep === module.lesson.steps.length;
+
+                    const handleAnswer = (qIndex, aIndex) => {
+                        setAnswers({...answers, [qIndex]: aIndex});
+                    };
+
+                    const handleSubmitQuiz = () => {
+                        let correctCount = 0;
+                        module.lesson.quiz.forEach((q, index) => {
+                            if (answers[index] === q.correct) {
+                                correctCount++;
+                            }
+                        });
+
+                        if (correctCount === module.lesson.quiz.length) {
+                            alert('Congratulations! You passed the quiz and completed the module.');
+                            completeModule(module.id);
+                        } else {
+                            alert(`You answered ${correctCount} out of ${module.lesson.quiz.length} questions correctly. Please review the material and try again.`);
+                        }
+                    };
+
+                    return (
+                        <div className="bg-white rounded-xl shadow-lg p-8">
+                            <div className="flex justify-between items-start mb-4">
+                                <h2 className="text-2xl font-bold text-gray-900">{module.title}</h2>
+                                <button onClick={() => setSelectedModule(null)} className="text-gray-500 hover:text-gray-700"><i className="fas fa-times text-xl"></i></button>
+                            </div>
+                            
+                            {/* Progress Bar */}
+                            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                                <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: `${((lessonStep + 1) / (module.lesson.steps.length + 1)) * 100}%` }}></div>
+                            </div>
+
+                            {isQuiz ? (
+                                <div>
+                                    <h3 className="text-xl font-semibold mb-4">Knowledge Check</h3>
+                                    <div className="space-y-6">
+                                        {module.lesson.quiz.map((q, qIndex) => (
+                                            <div key={qIndex}>
+                                                <p className="font-medium text-gray-800 mb-2">{q.question}</p>
+                                                <div className="space-y-2">
+                                                    {q.options.map((opt, aIndex) => (
+                                                        <label key={aIndex} className={`flex items-center p-3 rounded-lg border cursor-pointer ${answers[qIndex] === aIndex ? 'bg-yellow-100 border-yellow-500' : 'border-gray-300'}`}>
+                                                            <input type="radio" name={`q${qIndex}`} onChange={() => handleAnswer(qIndex, aIndex)} className="mr-3" />
+                                                            {opt}
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3 className="text-xl font-semibold mb-2">{module.lesson.steps[lessonStep].title}</h3>
+                                    <p className="text-gray-600 whitespace-pre-line">{module.lesson.steps[lessonStep].content}</p>
+                                </div>
+                            )}
+
+                            <div className="flex justify-between items-center mt-8 pt-6 border-t">
+                                <button 
+                                    onClick={() => setLessonStep(lessonStep - 1)}
+                                    disabled={lessonStep === 0}
+                                    className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                >
+                                    Previous
+                                </button>
+                                {isQuiz ? (
+                                    <button onClick={handleSubmitQuiz} className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                        Submit Quiz
+                                    </button>
+                                ) : (
+                                    <button 
+                                        onClick={() => setLessonStep(lessonStep + 1)}
+                                        className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                                    >
+                                        Next
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    );
+                };
+
+                if (selectedModule) {
+                    return (
+                        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                            <ModuleLesson module={selectedModule} />
+                        </div>
+                    );
+                }
+
+                return (
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                        {/* Module Selection UI remains the same */}
+                        <div className="text-center mb-12">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-4">Security Education Center</h1>
+                            <p className="text-xl text-gray-600">Interactive modules to enhance your cybersecurity knowledge</p>
+                        </div>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {educationModules.map((module) => (
+                                <div 
+                                    key={module.id}
+                                    onClick={() => setSelectedModule(module)}
+                                    className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer relative"
+                                >
+                                    {completedModules.includes(module.id) && (
+                                        <div className="absolute top-4 right-4 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                            <i className="fas fa-check text-white text-xs"></i>
+                                        </div>
+                                    )}
+                                    <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                        <i className={`${module.icon} text-xl text-yellow-600`}></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{module.title}</h3>
+                                    <p className="text-gray-600 mb-4">{module.description}</p>
+                                    <div className="flex justify-between items-center">
+                                        <span className={`text-sm font-medium ${module.levelColor}`}>{module.level}</span>
+                                        <span className="text-sm text-gray-500">{module.duration}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            };
+
+            // About Page Component
+            const AboutPage = () => (
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                        <div className="text-center mb-20">
+                            <h1 className="text-6xl font-extrabold text-gray-900 mb-6 hero-title">About GUARDBULLDOG</h1>
+                            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                                The premier cybersecurity training platform for academic institutions, combining cutting-edge education with real-world threat simulation.
+                            </p>
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-2xl p-16 mb-20 border border-gray-100">
+                            <div className="grid lg:grid-cols-2 gap-16 items-center">
+                                <div>
+                                    <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Core Mission</h2>
+                                    <p className="text-lg text-gray-700 leading-relaxed mb-8">
+                                        To empower our university community with the critical cybersecurity skills needed to defend against modern digital threats. We foster a culture of security awareness through practical, engaging, and accessible training.
+                                    </p>
+                                    <div className="space-y-6">
+                                        <div className="flex items-start">
+                                            <div className="w-10 h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                                <i className="fas fa-graduation-cap text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-lg text-gray-800">Comprehensive Education</h4>
+                                                <p className="text-gray-600">Providing cutting-edge training modules inspired by industry best practices.</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start">
+                                            <div className="w-10 h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                                <i className="fas fa-crosshairs text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-lg text-gray-800">Practical Simulation</h4>
+                                                <p className="text-gray-600">Test your skills against realistic, real-world phishing scenarios.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-10 lg:mt-0">
+                                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1740&q=80" alt="Professional Team Collaboration" className="rounded-lg shadow-xl w-full h-auto object-cover" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Meet the Team Section */}
+                        <div className="text-center mb-20">
+                            <h2 className="text-5xl font-bold text-gray-900 mb-6">Meet the Team</h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">The dedicated individuals who brought this project to life.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            {
+                                [
+                                    { name: 'Ashleigh Mosley', role: 'System Project Manager', icon: 'fas fa-clipboard-check' },
+                                    { name: 'Moustapha', role: 'System Designer / Architect / Engineer', icon: 'fas fa-sitemap' },
+                                    { name: 'Enrique Wallace', role: 'System Implementator', icon: 'fas fa-cogs' },
+                                    { name: 'Amanda B', role: 'System Analyst and Tester', icon: 'fas fa-vial' },
+                                    { name: 'Victory Ubogu', role: 'System Developer', icon: 'fas fa-code' },
+                                ].map((member, index) => (
+                                    <div key={index} className="bg-white rounded-xl shadow-lg p-8 text-center card-hover flex flex-col">
+                                        <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <i className={`${member.icon} text-3xl text-yellow-600`}></i>
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-2">{member.name}</h3>
+                                        <p className="text-yellow-700 font-semibold mb-4">{member.role}</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Report Page Component with Advanced Email Scanner
+            const ReportPage = () => {
+                const [emailContent, setEmailContent] = useState('');
+                const [analysisResult, setAnalysisResult] = useState(null);
+                const [isLoading, setIsLoading] = useState(false);
+
+                const handleSubmit = (e) => {
+                    e.preventDefault();
+                    if (!emailContent.trim()) {
+                        showNotification('Please paste the email content to analyze.', 'error');
+                        return;
+                    }
+                    setIsLoading(true);
+                    setAnalysisResult(null);
+
+                    // Simulate AI analysis delay
+                    setTimeout(() => {
+                        const phishingIndicators = {
+                            urgentLanguage: /(urgent|immediate|action required|verify your account|account suspended)/gi,
+                            genericGreeting: /(dear customer|dear user|valued member)/gi,
+                            suspiciousLinks: /(http:\/\/|bit\.ly|tinyurl|goo\.gl|shorturl)/gi,
+                            requestsForInfo: /(password|social security number|ssn|credit card|bank account)/gi,
+                            spellingGrammarErrors: /\b(verifcation|securty|accout|kindley|supsended)\b/gi,
+                            threats: /(legal action|account will be closed|consequences)/gi,
+                        };
+
+                        let detected = {};
+                        let riskScore = 0;
+
+                        Object.keys(phishingIndicators).forEach(key => {
+                            const matches = emailContent.match(phishingIndicators[key]);
+                            if (matches) {
+                                detected[key] = matches.length;
+                                riskScore += matches.length * (key === 'requestsForInfo' ? 30 : 15);
+                            }
+                        });
+                        
+                        riskScore = Math.min(100, riskScore);
+
+                        const result = {
+                            riskScore,
+                            detected,
+                            timestamp: new Date().toISOString(),
+                            recommendation: riskScore > 60 ? 'High risk. Do not interact with this email.' : riskScore > 30 ? 'Moderate risk. Proceed with caution.' : 'Low risk, but always stay vigilant.'
+                        };
+
+                        setAnalysisResult(result);
+                        setIsLoading(false);
+
+                        // Save report to localStorage for demo
+                        const savedReports = JSON.parse(localStorage.getItem('guardbulldog_reports')) || [];
+                        savedReports.push({ emailContent, result });
+                        localStorage.setItem('guardbulldog_reports', JSON.stringify(savedReports));
+
+                    }, 1500);
+                };
+
+                const ResultDisplay = () => {
+                    if (!analysisResult) return null;
+
+                    const riskColor = analysisResult.riskScore > 60 ? 'text-red-600' : analysisResult.riskScore > 30 ? 'text-yellow-600' : 'text-green-600';
+
+                    return (
+                        <div className="mt-8 bg-gray-50 rounded-xl p-6">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-4">Analysis Complete</h3>
+                            <div className="text-center mb-6">
+                                <div className={`text-6xl font-bold ${riskColor}`}>{analysisResult.riskScore}</div>
+                                <div className="text-lg text-gray-600">Risk Score</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 mb-4">
+                                <p className={`text-center font-semibold ${riskColor}`}>{analysisResult.recommendation}</p>
+                            </div>
+                            <h4 className="font-semibold text-gray-800 mb-3">Detected Indicators:</h4>
+                            <ul className="space-y-2">
+                                {Object.keys(analysisResult.detected).length > 0 ? (
+                                    Object.entries(analysisResult.detected).map(([key, value]) => (
+                                        <li key={key} className="flex items-center space-x-3">
+                                            <i className="fas fa-exclamation-triangle text-red-500"></i>
+                                            <span className="text-gray-700">{key.replace(/([A-Z])/g, ' $1').trim()}: <strong>{value} instance(s)</strong></span>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="flex items-center space-x-3">
+                                        <i className="fas fa-check-circle text-green-500"></i>
+                                        <span className="text-gray-700">No common phishing indicators detected.</span>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    );
+                };
+
+                return (
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                        <div className="text-center mb-8">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-4">Advanced Email Security Scanner</h1>
+                            <p className="text-xl text-gray-600">Our AI-powered tool analyzes email content for phishing indicators in real-time.</p>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-8">
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Paste Full Email Content</label>
+                                    <textarea
+                                        rows="10"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        placeholder="Paste the full email content here, including headers if possible..."
+                                        value={emailContent}
+                                        onChange={(e) => setEmailContent(e.target.value)}
+                                        required
+                                    ></textarea>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full bg-red-600 text-white py-4 px-6 rounded-lg font-medium hover:bg-red-700 transition-colors flex items-center justify-center"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <i className="fas fa-spinner fa-spin mr-2"></i>
+                                            Analyzing...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="fas fa-shield-alt mr-2"></i>
+                                            Scan for Threats
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                            {isLoading && (
+                                <div className="text-center mt-4 text-gray-600">Please wait while our AI analyzes the content...</div>
+                            )}
+                            <ResultDisplay />
+                        </div>
+                    </div>
+                );
+            };
+
+            // Footer Component
+            const AccessDenied = () => (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+                    <div className="bg-white p-12 rounded-2xl shadow-2xl border border-gray-100">
+                        <div className="mb-6">
+                            <i className="fas fa-lock text-6xl text-yellow-500"></i>
+                        </div>
+                        <h2 className="text-4xl font-extrabold text-gray-900 mb-4">Access Restricted</h2>
+                        <p className="text-xl text-gray-600 mb-10">This content is available exclusively for our members. Please sign in or create an account to access our full suite of cybersecurity training tools.</p>
+                        <div className="flex justify-center gap-6">
+                            <button onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }} className="bg-gray-900 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-800 transition-all transform hover:scale-105 shadow-xl">Sign In</button>
+                            <button onClick={() => { setAuthMode('signup'); setShowAuthModal(true); }} className="bg-yellow-500 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-yellow-600 transition-all transform hover:scale-105 shadow-xl">Create Account</button>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const Notification = ({ message, type, show }) => {
+                const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+                return (
+                    <div className={`notification ${type} ${show ? 'show' : ''}`}>
+                        <i className={`fas ${icon}`}></i>
+                        <span>{message}</span>
+                    </div>
+                );
+            };
+
+            const Footer = () => (
+                <footer className="bg-gray-900 text-white py-12">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div className="col-span-1 md:col-span-2">
+                                <div className="brand-container mb-4">
+                                    <div className="brand-logo"></div>
+                                    <span className="brand-text text-white">GUARDBULLDOG</span>
+                                </div>
+                                <p className="text-gray-300 mb-4 max-w-md">
+                                    Protecting the Bowie State University community through comprehensive cybersecurity education and training.
+                                </p>
+                                <div className="flex space-x-4">
+                                    <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                                        <i className="fab fa-twitter text-xl"></i>
+                                    </a>
+                                    <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                                        <i className="fab fa-linkedin text-xl"></i>
+                                    </a>
+                                    <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                                        <i className="fab fa-github text-xl"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+                                <ul className="space-y-2">
+                                    <li><button onClick={() => setCurrentPage('home')} className="text-gray-300 hover:text-yellow-400 transition-colors">Home</button></li>
+                                    <li><button onClick={() => setCurrentPage('education')} className="text-gray-300 hover:text-yellow-400 transition-colors">Education</button></li>
+                                    <li><button onClick={() => setCurrentPage('threats')} className="text-gray-300 hover:text-yellow-400 transition-colors">Threat Feed</button></li>
+                                    <li><button onClick={() => setCurrentPage('about')} className="text-gray-300 hover:text-yellow-400 transition-colors">About</button></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold mb-4">Support</h3>
+                                <ul className="space-y-2">
+                                    <li><button onClick={() => setCurrentPage('faq')} className="text-gray-300 hover:text-yellow-400 transition-colors">FAQ</button></li>
+                                    <li><button onClick={() => setCurrentPage('contact')} className="text-gray-300 hover:text-yellow-400 transition-colors">Contact Us</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+                            <div className="flex justify-center space-x-6 mb-4">
+                                <button onClick={() => setCurrentPage('privacy')} className="text-gray-400 hover:text-yellow-400 transition-colors">Privacy Policy</button>
+                                <span className="text-gray-600">|</span>
+                                <button onClick={() => setCurrentPage('terms')} className="text-gray-400 hover:text-yellow-400 transition-colors">Terms of Service</button>
+                            </div>
+                            <p className="text-gray-300">
+                                2025 GUARDBULLDOG - Bowie State University. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </footer>
+            );
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Notification message={notification.message} type={notification.type} show={notification.show} />
+                    <Navbar />
+                    <Breadcrumb />
+                    <AuthModal />
+                    
+                    {currentPage === 'home' && (
+                        <div className="fade-in">
+                            <HomePage />
+                            <FeaturesSection />
+                            <StatsSection />
+                            <TestimonialsSection />
+                            <CTASection />
+                        </div>
+                    )}
+                    {currentPage === 'about' && <div className="fade-in"><AboutPage /></div>}
+                    {currentPage === 'contact' && <div className="fade-in"><ContactPage /></div>}
+                    {currentPage === 'faq' && <div className="fade-in"><FAQPage /></div>}
+                    {currentPage === 'privacy' && <div className="fade-in"><PrivacyPage /></div>}
+                    {currentPage === 'terms' && <div className="fade-in"><TermsPage /></div>}
+                    {currentPage === 'search' && <div className="fade-in"><SearchResultsPage /></div>}
+                    
+                    {/* 404 Page for unknown routes */}
+                    {!['home', 'about', 'contact', 'faq', 'privacy', 'terms', 'search', 'dashboard', 'education', 'report', 'threats', 'admin'].includes(currentPage) && <NotFoundPage />}
+                    
+                    {user ? (
+                        <>
+                            {currentPage === 'dashboard' && <div className="fade-in"><Dashboard /></div>}
+                            {currentPage === 'education' && <div className="fade-in"><EducationPage /></div>}
+                            {currentPage === 'report' && <div className="fade-in"><ReportPage /></div>}
+                            {currentPage === 'threats' && <div className="fade-in"><ThreatsPage /></div>}
+                            {currentPage === 'admin' && user.role === 'admin' && <div className="fade-in"><AdminPage /></div>}
+                        </>
+                    ) : (
+                        <> 
+                            {['dashboard', 'education', 'report', 'threats', 'admin'].includes(currentPage) && <AccessDenied />}
+                        </>
+                    )}
+                    <Footer />
+                    <ChatWidget />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

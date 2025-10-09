@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Phishing Protection System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); }
+        .gradient-bg-dark { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+        .card { 
+            background: white; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+            padding: 1.5rem; 
+            border: 1px solid #f3f4f6; 
+        }
+        .btn-primary { 
+            background: linear-gradient(to right, #eab308, #d97706); 
+            color: black; 
+            font-weight: 600; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            transition: all 0.2s; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { 
+            background: linear-gradient(to right, #d97706, #b45309); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); 
+        }
+        .btn-secondary { 
+            background: white; 
+            color: #d97706; 
+            font-weight: 600; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            border: 2px solid #eab308; 
+            transition: all 0.2s; 
+            cursor: pointer;
+        }
+        .btn-secondary:hover { 
+            background: #fefce8; 
+            border-color: #d97706; 
+        }
+        .bulldog-logo { 
+            width: 60px; 
+            height: 60px; 
+            background: url('../assets/guardbulldog-logo.png') center/contain no-repeat;
+        }
+        .text-gold { color: #FFD700; }
+        .text-bowie-black { color: #1a1a1a; }
+        .bg-gold { background-color: #FFD700; }
+        .bg-bowie-black { background-color: #1a1a1a; }
+        .border-gold { border-color: #FFD700; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Mock data
+        const mockUser = {
+            firstName: "John",
+            lastName: "Doe",
+            email: "john.doe@bowie.edu",
+            role: "student"
+        };
+
+        const mockStats = {
+            reportsSubmitted: 3,
+            modulesCompleted: 2,
+            threatsBlocked: 15,
+            securityScore: 85
+        };
+
+        // Components
+        const Navbar = ({ currentPage, setCurrentPage }) => (
+            <nav className="bg-white shadow-lg border-b-2 border-gold">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-20">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0 flex items-center">
+                                <div className="bulldog-logo mr-4"></div>
+                                <span className="text-2xl font-bold text-bowie-black">GUARD<span className="text-gold">BULLDOG</span></span>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-6">
+                            <button 
+                                onClick={() => setCurrentPage('home')}
+                                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${currentPage === 'home' ? 'bg-gold text-bowie-black shadow-md' : 'text-gray-600 hover:text-bowie-black hover:bg-yellow-50'}`}
+                            >
+                                Home
+                            </button>
+                            <button 
+                                onClick={() => setCurrentPage('dashboard')}
+                                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${currentPage === 'dashboard' ? 'bg-gold text-bowie-black shadow-md' : 'text-gray-600 hover:text-bowie-black hover:bg-yellow-50'}`}
+                            >
+                                Dashboard
+                            </button>
+                            <button 
+                                onClick={() => setCurrentPage('report')}
+                                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${currentPage === 'report' ? 'bg-gold text-bowie-black shadow-md' : 'text-gray-600 hover:text-bowie-black hover:bg-yellow-50'}`}
+                            >
+                                Report Phishing
+                            </button>
+                            <button 
+                                onClick={() => setCurrentPage('education')}
+                                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${currentPage === 'education' ? 'bg-gold text-bowie-black shadow-md' : 'text-gray-600 hover:text-bowie-black hover:bg-yellow-50'}`}
+                            >
+                                Education
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        );
+
+        const HomePage = () => (
+            <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-100">
+                <div className="relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                        <div className="text-center">
+                            <div className="flex justify-center mb-8">
+                                <div className="w-32 h-32 bulldog-logo shadow-2xl" style={{transform: 'scale(1.6)'}}></div>
+                            </div>
+                            
+                            <h1 className="text-5xl md:text-6xl font-bold text-bowie-black mb-6">
+                                GUARD<span className="text-gold">BULLDOG</span>
+                            </h1>
+                            
+                            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                                Bowie State University's comprehensive phishing awareness and reporting system. 
+                                Protect yourself and the university community from cyber threats.
+                            </p>
+                            
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <button className="btn-primary">
+                                    Get Started
+                                    <svg className="ml-2 w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </button>
+                                <button className="btn-secondary">
+                                    Sign In
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white py-16">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                            <div className="text-center">
+                                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">2,847</div>
+                                <div className="text-sm text-gray-600">Phishing Attempts Blocked</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">1,234</div>
+                                <div className="text-sm text-gray-600">Users Trained</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">456</div>
+                                <div className="text-sm text-gray-600">Reports Processed</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">98%</div>
+                                <div className="text-sm text-gray-600">Security Score</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const Dashboard = () => (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="space-y-8">
+                    <div className="gradient-bg rounded-lg p-6 text-white">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h1 className="text-2xl font-bold">Welcome back, {mockUser.firstName}!</h1>
+                                <p className="mt-1 text-blue-100">Help protect Bowie State University from phishing threats</p>
+                            </div>
+                            <div className="hidden sm:block">
+                                <svg className="h-16 w-16 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                                    </svg>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-500">Reports Submitted</p>
+                                    <p className="text-2xl font-bold text-gray-900">{mockStats.reportsSubmitted}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-500">Modules Completed</p>
+                                    <p className="text-2xl font-bold text-gray-900">{mockStats.modulesCompleted}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-500">Threats Blocked</p>
+                                    <p className="text-2xl font-bold text-gray-900">{mockStats.threatsBlocked}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+                                    <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-500">Security Score</p>
+                                    <p className="text-2xl font-bold text-gray-900">{mockStats.securityScore}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2 card">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-6">Quick Actions</h3>
+                            <div className="space-y-3">
+                                <div className="block p-4 rounded-lg border-2 border-red-200 bg-red-50 hover:border-red-300 cursor-pointer">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
+                                                <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-gray-900">Report Suspicious Email</h4>
+                                                <p className="text-sm text-gray-600 mt-1">Quickly report phishing attempts to protect the community</p>
+                                            </div>
+                                        </div>
+                                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-1 card">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="flex items-start space-x-3">
+                                    <div className="flex-shrink-0">
+                                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                            <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-gray-900">Completed "Email Security Basics" module</p>
+                                        <p className="text-sm text-gray-500">Scored 95% on the quiz</p>
+                                        <p className="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const ReportPhishing = () => (
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="card">
+                    <h1 className="text-2xl font-bold text-gray-900 mb-6">Report Phishing Email</h1>
+                    <form className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Subject</label>
+                            <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter the suspicious email subject" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Sender Email</label>
+                            <input type="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="sender@example.com" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Content</label>
+                            <textarea rows="6" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Paste the suspicious email content here..."></textarea>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Attach Email File (Optional)</label>
+                            <input type="file" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <button type="submit" className="btn-primary">Submit Report</button>
+                    </form>
+                </div>
+            </div>
+        );
+
+        const Education = () => (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4">Security Education Center</h1>
+                    <p className="text-lg text-gray-600">Learn to identify and prevent phishing attacks through interactive modules.</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="card hover:shadow-lg transition-shadow cursor-pointer">
+                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Security Basics</h3>
+                        <p className="text-gray-600 mb-4">Learn the fundamentals of email security and how to identify suspicious emails.</p>
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm text-green-600 font-medium">Completed</span>
+                            <span className="text-sm text-gray-500">30 min</span>
+                        </div>
+                    </div>
+
+                    <div className="card hover:shadow-lg transition-shadow cursor-pointer">
+                        <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                            <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Phishing Techniques</h3>
+                        <p className="text-gray-600 mb-4">Understand common phishing tactics and how cybercriminals operate.</p>
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm text-blue-600 font-medium">In Progress</span>
+                            <span className="text-sm text-gray-500">45 min</span>
+                        </div>
+                    </div>
+
+                    <div className="card hover:shadow-lg transition-shadow cursor-pointer">
+                        <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Advanced Protection</h3>
+                        <p className="text-gray-600 mb-4">Advanced security measures and best practices for comprehensive protection.</p>
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600 font-medium">Not Started</span>
+                            <span className="text-sm text-gray-500">60 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+
+            const renderPage = () => {
+                switch(currentPage) {
+                    case 'home': return <HomePage />;
+                    case 'dashboard': return <Dashboard />;
+                    case 'report': return <ReportPhishing />;
+                    case 'education': return <Education />;
+                    default: return <HomePage />;
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    {renderPage()}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

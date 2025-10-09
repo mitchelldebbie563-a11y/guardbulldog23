@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Phishing - GUARDBULLDOG</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); }
+        .btn-primary { 
+            background: linear-gradient(135deg, #FFD700, #FFA500); 
+            border: none; 
+            color: #1a1a1a; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4); 
+        }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .bulldog-logo { 
+            width: 40px; 
+            height: 40px; 
+            background: url('../assets/guardbulldog-logo.png') center/contain no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const PhishingReportComponent = () => {
+            const [reportType, setReportType] = useState('email');
+            const [formData, setFormData] = useState({
+                senderEmail: '',
+                subject: '',
+                content: '',
+                url: '',
+                attachments: '',
+                urgency: 'medium',
+                description: ''
+            });
+            const [submitted, setSubmitted] = useState(false);
+            const [reports, setReports] = useState([
+                {
+                    id: 1,
+                    type: 'email',
+                    sender: 'fake-bank@suspicious.com',
+                    subject: 'Urgent: Verify Your Account',
+                    status: 'investigating',
+                    date: '2024-01-15',
+                    urgency: 'high'
+                },
+                {
+                    id: 2,
+                    type: 'website',
+                    url: 'fake-microsoft-login.com',
+                    status: 'blocked',
+                    date: '2024-01-14',
+                    urgency: 'medium'
+                }
+            ]);
+
+            const handleInputChange = (field, value) => {
+                setFormData(prev => ({ ...prev, [field]: value }));
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                const newReport = {
+                    id: reports.length + 1,
+                    type: reportType,
+                    ...formData,
+                    status: 'pending',
+                    date: new Date().toISOString().split('T')[0]
+                };
+                setReports(prev => [newReport, ...prev]);
+                setSubmitted(true);
+                setFormData({
+                    senderEmail: '',
+                    subject: '',
+                    content: '',
+                    url: '',
+                    attachments: '',
+                    urgency: 'medium',
+                    description: ''
+                });
+            };
+
+            const getStatusColor = (status) => {
+                switch(status) {
+                    case 'pending': return 'bg-yellow-100 text-yellow-800';
+                    case 'investigating': return 'bg-blue-100 text-blue-800';
+                    case 'blocked': return 'bg-green-100 text-green-800';
+                    case 'false-positive': return 'bg-gray-100 text-gray-800';
+                    default: return 'bg-gray-100 text-gray-800';
+                }
+            };
+
+            const getUrgencyColor = (urgency) => {
+                switch(urgency) {
+                    case 'high': return 'text-red-600';
+                    case 'medium': return 'text-yellow-600';
+                    case 'low': return 'text-green-600';
+                    default: return 'text-gray-600';
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <div className="bg-white shadow-lg border-b-4 border-yellow-500">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                            <div className="flex items-center space-x-3">
+                                <div className="bulldog-logo"></div>
+                                <div>
+                                    <h1 className="text-2xl font-bold text-gray-900">Report Phishing</h1>
+                                    <p className="text-gray-600">Help protect our community by reporting suspicious activities</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        <div className="grid lg:grid-cols-2 gap-8">
+                            {/* Report Form */}
+                            <div className="bg-white rounded-xl shadow-lg p-8">
+                                <h2 className="text-xl font-bold text-gray-900 mb-6">Submit New Report</h2>
+                                
+                                {submitted && (
+                                    <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                                        <div className="flex items-center">
+                                            <i className="fas fa-check-circle mr-2"></i>
+                                            <span className="font-semibold">Report submitted successfully!</span>
+                                        </div>
+                                        <p className="mt-1 text-sm">Our security team will investigate this report within 24 hours.</p>
+                                    </div>
+                                )}
+
+                                {/* Report Type Selection */}
+                                <div className="mb-6">
+                                    <label className="block text-sm font-medium text-gray-700 mb-3">Report Type</label>
+                                    <div className="flex space-x-4">
+                                        <button
+                                            onClick={() => setReportType('email')}
+                                            className={`flex-1 p-4 rounded-lg border-2 transition-all ${
+                                                reportType === 'email' 
+                                                    ? 'border-yellow-500 bg-yellow-50' 
+                                                    : 'border-gray-300 hover:border-gray-400'
+                                            }`}
+                                        >
+                                            <i className="fas fa-envelope text-2xl mb-2 text-yellow-600"></i>
+                                            <div className="font-semibold">Phishing Email</div>
+                                        </button>
+                                        <button
+                                            onClick={() => setReportType('website')}
+                                            className={`flex-1 p-4 rounded-lg border-2 transition-all ${
+                                                reportType === 'website' 
+                                                    ? 'border-yellow-500 bg-yellow-50' 
+                                                    : 'border-gray-300 hover:border-gray-400'
+                                            }`}
+                                        >
+                                            <i className="fas fa-globe text-2xl mb-2 text-yellow-600"></i>
+                                            <div className="font-semibold">Suspicious Website</div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    {reportType === 'email' ? (
+                                        <>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Sender Email Address</label>
+                                                <input
+                                                    type="email"
+                                                    value={formData.senderEmail}
+                                                    onChange={(e) => handleInputChange('senderEmail', e.target.value)}
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                                    placeholder="suspicious@example.com"
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Email Subject</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.subject}
+                                                    onChange={(e) => handleInputChange('subject', e.target.value)}
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                                    placeholder="Enter the email subject line"
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Email Content</label>
+                                                <textarea
+                                                    value={formData.content}
+                                                    onChange={(e) => handleInputChange('content', e.target.value)}
+                                                    rows="4"
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                                    placeholder="Copy and paste the suspicious email content here..."
+                                                    required
+                                                ></textarea>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Suspicious Website URL</label>
+                                            <input
+                                                type="url"
+                                                value={formData.url}
+                                                onChange={(e) => handleInputChange('url', e.target.value)}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                                placeholder="https://suspicious-website.com"
+                                                required
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Urgency Level</label>
+                                        <select
+                                            value={formData.urgency}
+                                            onChange={(e) => handleInputChange('urgency', e.target.value)}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                        >
+                                            <option value="low">Low - Suspicious but not immediate threat</option>
+                                            <option value="medium">Medium - Potential security risk</option>
+                                            <option value="high">High - Active threat or credential compromise</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Additional Details</label>
+                                        <textarea
+                                            value={formData.description}
+                                            onChange={(e) => handleInputChange('description', e.target.value)}
+                                            rows="3"
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                            placeholder="Any additional context or details about this threat..."
+                                        ></textarea>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="w-full btn-primary py-3 rounded-lg text-lg font-semibold"
+                                    >
+                                        <i className="fas fa-shield-alt mr-2"></i>
+                                        Submit Report
+                                    </button>
+                                </form>
+                            </div>
+
+                            {/* Recent Reports */}
+                            <div className="bg-white rounded-xl shadow-lg p-8">
+                                <h2 className="text-xl font-bold text-gray-900 mb-6">Your Recent Reports</h2>
+                                
+                                <div className="space-y-4">
+                                    {reports.map(report => (
+                                        <div key={report.id} className="border border-gray-200 rounded-lg p-4 card-hover">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <div className="flex items-center space-x-3">
+                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                                        report.type === 'email' ? 'bg-blue-100' : 'bg-purple-100'
+                                                    }`}>
+                                                        <i className={`fas ${
+                                                            report.type === 'email' ? 'fa-envelope' : 'fa-globe'
+                                                        } text-sm ${
+                                                            report.type === 'email' ? 'text-blue-600' : 'text-purple-600'
+                                                        }`}></i>
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold text-gray-900">
+                                                            {report.type === 'email' ? report.subject || report.sender : report.url}
+                                                        </div>
+                                                        <div className="text-sm text-gray-500">
+                                                            {report.type === 'email' ? `From: ${report.sender}` : 'Suspicious Website'}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(report.status)}`}>
+                                                        {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                                                    </span>
+                                                    <div className={`text-xs mt-1 ${getUrgencyColor(report.urgency)}`}>
+                                                        {report.urgency.toUpperCase()} PRIORITY
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                Reported on {new Date(report.date).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Quick Tips */}
+                                <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <h3 className="font-semibold text-yellow-800 mb-2">
+                                        <i className="fas fa-lightbulb mr-2"></i>
+                                        Quick Tips
+                                    </h3>
+                                    <ul className="text-sm text-yellow-700 space-y-1">
+                                        <li>• Report suspicious emails immediately, even if you're unsure</li>
+                                        <li>• Don't click links or download attachments from suspicious emails</li>
+                                        <li>• Forward phishing emails to our security team for analysis</li>
+                                        <li>• Check sender addresses carefully for misspellings or unusual domains</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<PhishingReportComponent />, document.getElementById('root'));
+    </script>
+</body>
+</html>

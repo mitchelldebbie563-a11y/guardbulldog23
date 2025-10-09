@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Complete Phishing Protection System</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); }
+        .gradient-text { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .btn-primary { 
+            background: linear-gradient(135deg, #FFD700, #FFA500); 
+            border: none; 
+            color: #1a1a1a; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4); 
+        }
+        .btn-secondary { 
+            background: transparent; 
+            border: 2px solid #FFD700; 
+            color: #FFD700; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { 
+            background: #FFD700; 
+            color: #1a1a1a; 
+            transform: translateY(-2px);
+        }
+        .bulldog-logo { 
+            width: 60px; 
+            height: 60px; 
+            background: url('../assets/guardbulldog-logo.png') center/contain no-repeat;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+        .stats-counter { font-size: 3rem; font-weight: 800; }
+        .sidebar-active { background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Authentication Context
+        const AuthContext = React.createContext();
+
+        const AuthProvider = ({ children }) => {
+            const [user, setUser] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('guardbulldog_user');
+                if (savedUser) {
+                    setUser(JSON.parse(savedUser));
+                }
+                setLoading(false);
+            }, []);
+
+            const login = (email, password) => {
+                // Simulate authentication
+                const userData = {
+                    id: 1,
+                    name: 'Dr. Sarah Johnson',
+                    email: email,
+                    role: email.includes('admin') ? 'admin' : 'user',
+                    department: 'IT Security',
+                    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1e0?w=150'
+                };
+                setUser(userData);
+                localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                return true;
+            };
+
+            const logout = () => {
+                setUser(null);
+                localStorage.removeItem('guardbulldog_user');
+            };
+
+            return (
+                <AuthContext.Provider value={{ user, login, logout, loading }}>
+                    {children}
+                </AuthContext.Provider>
+            );
+        };
+
+        // Login Component
+        const LoginPage = () => {
+            const { login } = React.useContext(AuthContext);
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (email && password) {
+                    login(email, password);
+                } else {
+                    setError('Please enter both email and password');
+                }
+            };
+
+            return (
+                <div className="min-h-screen hero-pattern flex items-center justify-center">
+                    <div className="max-w-md w-full mx-4">
+                        <div className="bg-white rounded-2xl shadow-2xl p-8">
+                            <div className="text-center mb-8">
+                                <div className="bulldog-logo mx-auto mb-4" style={{width: '80px', height: '80px'}}></div>
+                                <h1 className="text-3xl font-bold text-gray-900 mb-2">GUARDBULLDOG</h1>
+                                <p className="text-gray-600">Secure Access Portal</p>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        placeholder="Enter your password"
+                                    />
+                                </div>
+                                {error && (
+                                    <div className="text-red-600 text-sm">{error}</div>
+                                )}
+                                <button
+                                    type="submit"
+                                    className="w-full btn-primary py-3 rounded-lg text-lg font-semibold"
+                                >
+                                    Sign In
+                                </button>
+                            </form>
+
+                            <div className="mt-6 text-center text-sm text-gray-600">
+                                <p>Demo Accounts:</p>
+                                <p>User: user@bsu.edu | Admin: admin@bsu.edu</p>
+                                <p>Password: any password</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Navigation Component
+        const Navbar = ({ currentPage, setCurrentPage }) => {
+            const { user, logout } = React.useContext(AuthContext);
+
+            return (
+                <nav className="bg-white shadow-lg border-b-4 border-yellow-500">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-16">
+                            <div className="flex items-center space-x-3">
+                                <div className="bulldog-logo"></div>
+                                <span className="text-2xl font-bold text-gray-900">GUARDBULLDOG</span>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-gray-700">Welcome, {user?.name}</span>
+                                <button
+                                    onClick={logout}
+                                    className="text-gray-500 hover:text-red-600 transition-colors"
+                                >
+                                    <i className="fas fa-sign-out-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            );
+        };
+
+        // Sidebar Component
+        const Sidebar = ({ currentPage, setCurrentPage }) => {
+            const { user } = React.useContext(AuthContext);
+
+            const menuItems = [
+                { id: 'dashboard', icon: 'fas fa-tachometer-alt', label: 'Dashboard', role: 'all' },
+                { id: 'report', icon: 'fas fa-exclamation-triangle', label: 'Report Phishing', role: 'all' },
+                { id: 'education', icon: 'fas fa-graduation-cap', label: 'Education', role: 'all' },
+                { id: 'admin', icon: 'fas fa-users-cog', label: 'Admin Panel', role: 'admin' }
+            ];
+
+            return (
+                <div className="w-64 bg-white shadow-lg h-screen">
+                    <div className="p-6">
+                        <div className="space-y-2">
+                            {menuItems.map(item => {
+                                if (item.role !== 'all' && user?.role !== item.role) return null;
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => setCurrentPage(item.id)}
+                                        className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                                            currentPage === item.id 
+                                                ? 'sidebar-active text-yellow-700 border-l-4 border-yellow-500' 
+                                                : 'text-gray-600 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <i className={item.icon}></i>
+                                        <span className="font-medium">{item.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Dashboard Component
+        const Dashboard = () => {
+            const [stats, setStats] = useState({
+                threatsBlocked: 1247,
+                reportsSubmitted: 89,
+                trainingCompleted: 76,
+                systemUptime: 99.9
+            });
+
+            const [recentActivity] = useState([
+                { id: 1, type: 'threat', message: 'Phishing email blocked from suspicious-sender@fake-bank.com', time: '2 minutes ago', severity: 'high' },
+                { id: 2, type: 'report', message: 'New phishing report submitted by John Doe', time: '15 minutes ago', severity: 'medium' },
+                { id: 3, type: 'training', message: 'Sarah completed Advanced Phishing Recognition module', time: '1 hour ago', severity: 'low' },
+                { id: 4, type: 'system', message: 'Weekly security scan completed successfully', time: '2 hours ago', severity: 'low' }
+            ]);
+
+            return (
+                <div className="p-6">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Security Dashboard</h1>
+                        <p className="text-gray-600">Real-time overview of your cybersecurity status</p>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div className="bg-white rounded-xl p-6 shadow-lg card-hover">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Threats Blocked</p>
+                                    <p className="text-3xl font-bold text-red-600">{stats.threatsBlocked.toLocaleString()}</p>
+                                </div>
+                                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-shield-alt text-red-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 shadow-lg card-hover">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Reports Submitted</p>
+                                    <p className="text-3xl font-bold text-blue-600">{stats.reportsSubmitted}</p>
+                                </div>
+                                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-flag text-blue-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 shadow-lg card-hover">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Training Completed</p>
+                                    <p className="text-3xl font-bold text-green-600">{stats.trainingCompleted}%</p>
+                                </div>
+                                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-graduation-cap text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 shadow-lg card-hover">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">System Uptime</p>
+                                    <p className="text-3xl font-bold text-yellow-600">{stats.systemUptime}%</p>
+                                </div>
+                                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-server text-yellow-600 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div className="bg-white rounded-xl shadow-lg">
+                        <div className="p-6 border-b border-gray-200">
+                            <h2 className="text-xl font-bold text-gray-900">Recent Activity</h2>
+                        </div>
+                        <div className="p-6">
+                            <div className="space-y-4">
+                                {recentActivity.map(activity => (
+                                    <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50">
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                            activity.severity === 'high' ? 'bg-red-100' :
+                                            activity.severity === 'medium' ? 'bg-yellow-100' : 'bg-green-100'
+                                        }`}>
+                                            <i className={`fas ${
+                                                activity.type === 'threat' ? 'fa-shield-alt' :
+                                                activity.type === 'report' ? 'fa-flag' :
+                                                activity.type === 'training' ? 'fa-graduation-cap' : 'fa-cog'
+                                            } ${
+                                                activity.severity === 'high' ? 'text-red-600' :
+                                                activity.severity === 'medium' ? 'text-yellow-600' : 'text-green-600'
+                                            }`}></i>
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-gray-900 font-medium">{activity.message}</p>
+                                            <p className="text-sm text-gray-500">{activity.time}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const { user, loading } = React.useContext(AuthContext);
+            const [currentPage, setCurrentPage] = useState('dashboard');
+
+            if (loading) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="bulldog-logo mx-auto mb-4" style={{width: '80px', height: '80px'}}></div>
+                            <div className="text-xl font-semibold text-gray-600">Loading...</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!user) {
+                return <LoginPage />;
+            }
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    <div className="flex">
+                        <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        <div className="flex-1">
+                            {currentPage === 'dashboard' && <Dashboard />}
+                            {currentPage === 'report' && <div className="p-6"><h1 className="text-2xl font-bold">Report Phishing (Coming Soon)</h1></div>}
+                            {currentPage === 'education' && <div className="p-6"><h1 className="text-2xl font-bold">Education Modules (Coming Soon)</h1></div>}
+                            {currentPage === 'admin' && <div className="p-6"><h1 className="text-2xl font-bold">Admin Panel (Coming Soon)</h1></div>}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Root App with Auth Provider
+        const RootApp = () => (
+            <AuthProvider>
+                <App />
+            </AuthProvider>
+        );
+
+        ReactDOM.render(<RootApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

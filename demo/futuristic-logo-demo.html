@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Futuristic Cybersecurity Protection</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        body { 
+            font-family: 'Orbitron', monospace; 
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+        }
+        
+        .cyber-gradient { 
+            background: linear-gradient(135deg, #00FFFF 0%, #0080FF 50%, #4000FF 100%); 
+        }
+        
+        .neon-glow { 
+            text-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF; 
+        }
+        
+        .holographic-text {
+            background: linear-gradient(45deg, #FF00FF, #00FFFF, #FFFF00, #FF00FF);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hologram 3s ease-in-out infinite;
+        }
+        
+        @keyframes hologram {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .futuristic-logo { 
+            width: 120px; 
+            height: 120px; 
+            background: url('../client/src/assets/futuristic-bulldog-logo.svg') center/contain no-repeat;
+            filter: drop-shadow(0 0 20px #00FFFF);
+        }
+        
+        .cyber-card {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(64, 0, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .cyber-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: #00FFFF;
+        }
+        
+        .btn-cyber { 
+            background: linear-gradient(135deg, #00FFFF, #0080FF); 
+            border: none; 
+            color: #000; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-cyber:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-cyber:hover:before {
+            left: 100%;
+        }
+        
+        .btn-cyber:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.4); 
+        }
+        
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00FFFF, transparent);
+            animation: scan 4s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: matrix-move 20s linear infinite;
+        }
+        
+        @keyframes matrix-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Futuristic Navigation
+        const CyberNavbar = () => {
+            const [isScrolled, setIsScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setIsScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-black bg-opacity-80 backdrop-blur-lg' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-20">
+                            <div className="flex items-center space-x-4">
+                                <div className="futuristic-logo"></div>
+                                <div>
+                                    <div className="text-2xl font-black neon-glow">GUARDBULLDOG</div>
+                                    <div className="text-xs holographic-text">CYBERSECURITY PROTOCOL</div>
+                                </div>
+                            </div>
+                            <div className="hidden md:flex items-center space-x-8">
+                                <a href="#protocol" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">PROTOCOL</a>
+                                <a href="#systems" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">SYSTEMS</a>
+                                <a href="#defense" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">DEFENSE</a>
+                                <a href="#intel" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">INTEL</a>
+                                <button className="btn-cyber px-6 py-3 rounded-lg">INITIALIZE</button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            );
+        };
+
+        // Futuristic Hero Section
+        const CyberHeroSection = () => (
+            <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+                <div className="scanning-line"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/20 via-purple-900/20 to-blue-900/20"></div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
+                    <div className="mb-8">
+                        <div className="futuristic-logo mx-auto mb-6 pulse-ring"></div>
+                        <div className="text-6xl lg:text-8xl font-black mb-4">
+                            <span className="neon-glow">GUARD</span>
+                            <span className="holographic-text">BULLDOG</span>
+                        </div>
+                        <div className="text-xl text-cyan-400 font-semibold mb-2">ADVANCED THREAT DETECTION SYSTEM</div>
+                        <div className="text-sm text-gray-400 font-mono">v3.0 | NEURAL NETWORK ENABLED</div>
+                    </div>
+                    
+                    <div className="max-w-4xl mx-auto mb-12">
+                        <h1 className="text-3xl lg:text-5xl font-bold mb-6 leading-tight">
+                            Next-Generation <span className="holographic-text">AI-Powered</span><br/>
+                            Cybersecurity Defense Protocol
+                        </h1>
+                        <p className="text-xl text-gray-300 leading-relaxed">
+                            Utilizing advanced machine learning algorithms and quantum-encrypted threat detection 
+                            to provide unprecedented protection against sophisticated cyber attacks.
+                        </p>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+                        <button className="btn-cyber px-10 py-4 rounded-lg text-lg">
+                            <i className="fas fa-rocket mr-3"></i>
+                            DEPLOY SYSTEM
+                        </button>
+                        <button className="border-2 border-cyan-400 text-cyan-400 px-10 py-4 rounded-lg text-lg font-bold hover:bg-cyan-400 hover:text-black transition-all duration-300">
+                            <i className="fas fa-shield-alt mr-3"></i>
+                            VIEW PROTOCOLS
+                        </button>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div className="cyber-card rounded-xl p-6">
+                            <div className="text-4xl font-black neon-glow mb-2">99.9%</div>
+                            <div className="text-cyan-400 font-semibold">THREAT DETECTION</div>
+                            <div className="text-sm text-gray-400">Neural Network Accuracy</div>
+                        </div>
+                        <div className="cyber-card rounded-xl p-6">
+                            <div className="text-4xl font-black neon-glow mb-2">&lt;10ms</div>
+                            <div className="text-cyan-400 font-semibold">RESPONSE TIME</div>
+                            <div className="text-sm text-gray-400">Real-time Processing</div>
+                        </div>
+                        <div className="cyber-card rounded-xl p-6">
+                            <div className="text-4xl font-black neon-glow mb-2">24/7</div>
+                            <div className="text-cyan-400 font-semibold">ACTIVE MONITORING</div>
+                            <div className="text-sm text-gray-400">Continuous Protection</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+
+        // Futuristic Features Section
+        const CyberSystemsSection = () => {
+            const systems = [
+                {
+                    icon: 'fas fa-brain',
+                    title: 'NEURAL THREAT ANALYSIS',
+                    description: 'Advanced AI algorithms analyze behavioral patterns and identify zero-day threats in real-time.',
+                    status: 'ACTIVE'
+                },
+                {
+                    icon: 'fas fa-shield-virus',
+                    title: 'QUANTUM ENCRYPTION',
+                    description: 'Military-grade quantum encryption protocols protect data transmission and storage.',
+                    status: 'SECURED'
+                },
+                {
+                    icon: 'fas fa-satellite-dish',
+                    title: 'GLOBAL THREAT INTEL',
+                    description: 'Real-time threat intelligence from worldwide cybersecurity networks and databases.',
+                    status: 'SYNCED'
+                },
+                {
+                    icon: 'fas fa-robot',
+                    title: 'AUTONOMOUS RESPONSE',
+                    description: 'Automated threat neutralization and system recovery without human intervention.',
+                    status: 'ENABLED'
+                },
+                {
+                    icon: 'fas fa-eye',
+                    title: 'BEHAVIORAL MONITORING',
+                    description: 'Continuous user behavior analysis to detect anomalies and insider threats.',
+                    status: 'SCANNING'
+                },
+                {
+                    icon: 'fas fa-network-wired',
+                    title: 'NETWORK FORTRESS',
+                    description: 'Multi-layered network defense with adaptive firewall and intrusion prevention.',
+                    status: 'FORTIFIED'
+                }
+            ];
+
+            return (
+                <section id="systems" className="py-20 relative">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-5xl font-black mb-6">
+                                <span className="neon-glow">DEFENSE</span> <span className="holographic-text">SYSTEMS</span>
+                            </h2>
+                            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                                Integrated cybersecurity modules working in perfect harmony to create an impenetrable digital fortress
+                            </p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {systems.map((system, index) => (
+                                <div key={index} className="cyber-card rounded-xl p-8 relative overflow-hidden">
+                                    <div className="absolute top-4 right-4">
+                                        <span className="text-xs font-mono text-green-400 bg-green-400/20 px-2 py-1 rounded">
+                                            {system.status}
+                                        </span>
+                                    </div>
+                                    <div className="w-16 h-16 cyber-gradient rounded-lg flex items-center justify-center mb-6">
+                                        <i className={`${system.icon} text-2xl text-black`}></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-cyan-400 mb-4">{system.title}</h3>
+                                    <p className="text-gray-300 leading-relaxed">{system.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Futuristic CTA Section
+        const CyberCTASection = () => (
+            <section className="py-20 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/30 via-purple-900/30 to-blue-900/30"></div>
+                <div className="scanning-line"></div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <div className="futuristic-logo mx-auto mb-8 pulse-ring"></div>
+                    <h2 className="text-5xl font-black mb-6">
+                        <span className="neon-glow">INITIALIZE</span> <span className="holographic-text">PROTOCOL</span>
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                        Deploy the most advanced cybersecurity defense system. 
+                        Protect your digital infrastructure with military-grade AI technology.
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+                        <button className="btn-cyber px-12 py-5 rounded-lg text-xl">
+                            <i className="fas fa-power-off mr-3"></i>
+                            ACTIVATE GUARDBULLDOG
+                        </button>
+                        <button className="border-2 border-cyan-400 text-cyan-400 px-12 py-5 rounded-lg text-xl font-bold hover:bg-cyan-400 hover:text-black transition-all duration-300">
+                            <i className="fas fa-download mr-3"></i>
+                            DOWNLOAD SPECS
+                        </button>
+                    </div>
+                    
+                    <div className="text-sm text-gray-400 font-mono">
+                        CLASSIFIED: LEVEL 5 CLEARANCE • QUANTUM ENCRYPTED • NEURAL NETWORK v3.0
+                    </div>
+                </div>
+            </section>
+        );
+
+        // Main App Component
+        const CyberApp = () => (
+            <div className="min-h-screen">
+                <CyberNavbar />
+                <CyberHeroSection />
+                <CyberSystemsSection />
+                <CyberCTASection />
+            </div>
+        );
+
+        ReactDOM.render(<CyberApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

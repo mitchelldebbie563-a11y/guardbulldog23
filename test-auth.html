@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Test Authentication</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .bulldog-logo {
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTAiIGZpbGw9IiNGRkQ3MDAiLz4KPGVsbGlwc2UgY3g9IjEwMCIgY3k9IjEyMCIgcng9IjcwIiByeT0iNjAiIGZpbGw9IiMxYTFhMWEiLz4KPGVsbGlwc2UgY3g9IjEwMCIgY3k9IjkwIiByeD0iNjAiIHJ5PSI1MCIgZmlsbD0iI0ZGRDcwMCIvPgo8Y2lyY2xlIGN4PSI4NSIgY3k9IjgwIiByPSI4IiBmaWxsPSIjMWExYTFhIi8+CjxjaXJjbGUgY3g9IjExNSIgY3k9IjgwIiByPSI4IiBmaWxsPSIjMWExYTFhIi8+CjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI5NSIgcng9IjEyIiByeT0iOCIgZmlsbD0iIzFhMWExYSIvPgo8cGF0aCBkPSJNIDkwIDExMCBRIDEwMCAxMjAgMTEwIDExMCIgc3Ryb2tlPSIjMWExYTFhIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPGVsbGlwc2UgY3g9Ijc1IiBjeT0iNzAiIHJ4PSIxNSIgcnk9IjIwIiBmaWxsPSIjRkZENzAwIi8+CjxlbGxpcHNlIGN4PSIxMjUiIGN5PSI3MCIgcng9IjE1IiByeT0iMjAiIGZpbGw9IiNGRkQ3MDAiLz4KPC9zdmc+');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [user, setUser] = useState(null);
+            const [showAuthModal, setShowAuthModal] = useState(false);
+            const [authMode, setAuthMode] = useState('signin');
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('guardbulldog_user');
+                if (savedUser) {
+                    try {
+                        const userData = JSON.parse(savedUser);
+                        setUser(userData);
+                    } catch (e) {
+                        localStorage.removeItem('guardbulldog_user');
+                    }
+                }
+            }, []);
+
+            const handleLogin = (email, password) => {
+                console.log('Login attempt:', email, password);
+                
+                if (!email || !password) {
+                    alert('Please enter both email and password');
+                    return;
+                }
+
+                // Demo users
+                const validUsers = {
+                    'admin@bowiestate.edu': { password: 'Admin123!', role: 'admin', name: 'Admin User' },
+                    'student@bowiestate.edu': { password: 'Student123!', role: 'user', name: 'Student User' },
+                    'faculty@bowiestate.edu': { password: 'Faculty123!', role: 'user', name: 'Faculty Member' }
+                };
+
+                const validUser = validUsers[email];
+                if (validUser && validUser.password === password) {
+                    const userData = {
+                        name: validUser.name,
+                        email: email,
+                        role: validUser.role,
+                        loginTime: Date.now(),
+                        sessionId: Math.random().toString(36).substr(2, 9)
+                    };
+                    setUser(userData);
+                    localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                    setShowAuthModal(false);
+                    alert('Login successful!');
+                } else {
+                    alert('Invalid email or password');
+                }
+            };
+
+            const handleSignup = (name, email, password, confirmPassword) => {
+                console.log('Signup attempt:', name, email, password, confirmPassword);
+                
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+
+                const userData = {
+                    name: name,
+                    email: email,
+                    role: 'user',
+                    registrationDate: new Date().toISOString(),
+                    sessionId: Math.random().toString(36).substr(2, 9),
+                    loginTime: Date.now()
+                };
+
+                setUser(userData);
+                localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                setShowAuthModal(false);
+                alert('Account created successfully!');
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('guardbulldog_user');
+                alert('Logged out successfully!');
+            };
+
+            const AuthModal = () => {
+                if (!showAuthModal) return null;
+
+                return (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-bold text-gray-900">
+                                    {authMode === 'signin' ? 'Sign In' : 'Create Account'}
+                                </h2>
+                                <button onClick={() => setShowAuthModal(false)} className="text-gray-500 hover:text-gray-700">
+                                    <i className="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                const formData = new FormData(e.target);
+                                console.log('Form submitted:', authMode);
+                                
+                                if (authMode === 'signin') {
+                                    handleLogin(formData.get('email'), formData.get('password'));
+                                } else {
+                                    handleSignup(
+                                        formData.get('name'), 
+                                        formData.get('email'), 
+                                        formData.get('password'),
+                                        formData.get('confirmPassword')
+                                    );
+                                }
+                            }} className="space-y-4">
+                                {authMode === 'signup' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                )}
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        required
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    />
+                                </div>
+
+                                {authMode === 'signup' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                        <input
+                                            type="password"
+                                            name="confirmPassword"
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                )}
+                                
+                                <button type="submit" className="w-full btn-primary py-3 rounded-lg font-medium">
+                                    {authMode === 'signin' ? 'Sign In' : 'Create Account'}
+                                </button>
+                            </form>
+                            
+                            <div className="mt-6 text-center">
+                                <p className="text-gray-600">
+                                    {authMode === 'signin' ? "Don't have an account?" : "Already have an account?"}
+                                    <button 
+                                        onClick={() => setAuthMode(authMode === 'signin' ? 'signup' : 'signin')}
+                                        className="text-yellow-600 hover:text-yellow-800 ml-1 font-medium"
+                                    >
+                                        {authMode === 'signin' ? 'Sign up' : 'Sign in'}
+                                    </button>
+                                </p>
+                            </div>
+
+                            {authMode === 'signin' && (
+                                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                                    <p className="text-sm text-blue-800 font-medium mb-2">Demo Accounts:</p>
+                                    <div className="text-xs text-blue-700 space-y-1">
+                                        <div>Admin: admin@bowiestate.edu / Admin123!</div>
+                                        <div>Student: student@bowiestate.edu / Student123!</div>
+                                        <div>Faculty: faculty@bowiestate.edu / Faculty123!</div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <nav className="bg-white shadow-lg">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center space-x-3">
+                                    <div className="bulldog-logo"></div>
+                                    <span className="text-2xl font-bold text-gray-900">GUARDBULLDOG</span>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    {user ? (
+                                        <div className="flex items-center space-x-4">
+                                            <span className="text-gray-600">Welcome, {user.name}</span>
+                                            <button onClick={handleLogout} className="text-red-600 hover:text-red-800">
+                                                <i className="fas fa-sign-out-alt"></i> Logout
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center space-x-4">
+                                            <button 
+                                                onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }}
+                                                className="text-gray-700 hover:text-yellow-600 font-medium"
+                                            >
+                                                Sign In
+                                            </button>
+                                            <button 
+                                                onClick={() => { setAuthMode('signup'); setShowAuthModal(true); }}
+                                                className="btn-primary px-4 py-2 rounded-lg"
+                                            >
+                                                Sign Up
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <AuthModal />
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+                        {user ? (
+                            <div>
+                                <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to GUARDBULLDOG!</h1>
+                                <p className="text-xl text-gray-600 mb-8">You are successfully logged in as {user.name}</p>
+                                <div className="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
+                                    <h3 className="text-lg font-semibold mb-4">User Information</h3>
+                                    <div className="text-left space-y-2">
+                                        <p><strong>Name:</strong> {user.name}</p>
+                                        <p><strong>Email:</strong> {user.email}</p>
+                                        <p><strong>Role:</strong> {user.role}</p>
+                                        <p><strong>Login Time:</strong> {new Date(user.loginTime).toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div>
+                                <h1 className="text-4xl font-bold text-gray-900 mb-4">GUARDBULLDOG Authentication Test</h1>
+                                <p className="text-xl text-gray-600 mb-8">Click Sign In or Sign Up to test the authentication system</p>
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <button 
+                                        onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }}
+                                        className="btn-primary px-8 py-4 rounded-lg text-lg font-semibold"
+                                    >
+                                        Test Sign In
+                                    </button>
+                                    <button 
+                                        onClick={() => { setAuthMode('signup'); setShowAuthModal(true); }}
+                                        className="border-2 border-yellow-400 text-yellow-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-colors"
+                                    >
+                                        Test Sign Up
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

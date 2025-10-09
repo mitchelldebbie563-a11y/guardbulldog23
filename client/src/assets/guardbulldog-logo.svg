@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Shield Background -->
+  <path d="M256 50 L450 100 L450 280 Q450 380 256 450 Q62 380 62 280 L62 100 Z" fill="#1a1a1a" stroke="#FFD700" stroke-width="8"/>
+  
+  <!-- Bulldog Head -->
+  <g transform="translate(256, 256)">
+    <!-- Main head shape -->
+    <ellipse cx="0" cy="-20" rx="120" ry="100" fill="#FFD700"/>
+    
+    <!-- Ears -->
+    <ellipse cx="-90" cy="-80" rx="30" ry="45" fill="#FFD700"/>
+    <ellipse cx="90" cy="-80" rx="30" ry="45" fill="#FFD700"/>
+    
+    <!-- Inner ears -->
+    <ellipse cx="-90" cy="-80" rx="15" ry="25" fill="#1a1a1a"/>
+    <ellipse cx="90" cy="-80" rx="15" ry="25" fill="#1a1a1a"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-45" cy="-50" rx="20" ry="30" fill="#1a1a1a"/>
+    <ellipse cx="45" cy="-50" rx="20" ry="30" fill="#1a1a1a"/>
+    <ellipse cx="-45" cy="-55" rx="8" ry="10" fill="white"/>
+    <ellipse cx="45" cy="-55" rx="8" ry="10" fill="white"/>
+    
+    <!-- Angry eyebrows -->
+    <path d="M -70 -80 Q -45 -70 -20 -80" stroke="#1a1a1a" stroke-width="8" fill="none"/>
+    <path d="M 20 -80 Q 45 -70 70 -80" stroke="#1a1a1a" stroke-width="8" fill="none"/>
+    
+    <!-- Snout -->
+    <ellipse cx="0" cy="10" rx="50" ry="35" fill="#FFD700"/>
+    
+    <!-- Nose -->
+    <ellipse cx="0" cy="-5" rx="15" ry="10" fill="#1a1a1a"/>
+    
+    <!-- Mouth/Jowls -->
+    <path d="M -40 35 Q 0 60 40 35" stroke="#1a1a1a" stroke-width="8" fill="none"/>
+    
+    <!-- Fangs -->
+    <polygon points="-20,25 -12,50 -28,50" fill="white"/>
+    <polygon points="20,25 28,50 12,50" fill="white"/>
+    
+    <!-- Wrinkles and details -->
+    <path d="M -65 -10 Q -40 0 -15 -10" stroke="#1a1a1a" stroke-width="5" fill="none"/>
+    <path d="M 15 -10 Q 40 0 65 -10" stroke="#1a1a1a" stroke-width="5" fill="none"/>
+    
+    <!-- Jowl lines -->
+    <path d="M -80 20 Q -60 40 -40 60" stroke="#1a1a1a" stroke-width="6" fill="none"/>
+    <path d="M 80 20 Q 60 40 40 60" stroke="#1a1a1a" stroke-width="6" fill="none"/>
+  </g>
+</svg>

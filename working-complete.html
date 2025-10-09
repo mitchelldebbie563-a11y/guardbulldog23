@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Phishing Awareness & Protection</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .bulldog-logo {
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTAiIGZpbGw9IiNGRkQ3MDAiLz4KPGVsbGlwc2UgY3g9IjEwMCIgY3k9IjEyMCIgcng9IjcwIiByeT0iNjAiIGZpbGw9IiMxYTFhMWEiLz4KPGVsbGlwc2UgY3g9IjEwMCIgY3k9IjkwIiByeD0iNjAiIHJ5PSI1MCIgZmlsbD0iI0ZGRDcwMCIvPgo8Y2lyY2xlIGN4PSI4NSIgY3k9IjgwIiByPSI4IiBmaWxsPSIjMWExYTFhIi8+CjxjaXJjbGUgY3g9IjExNSIgY3k9IjgwIiByPSI4IiBmaWxsPSIjMWExYTFhIi8+CjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI5NSIgcng9IjEyIiByeT0iOCIgZmlsbD0iIzFhMWExYSIvPgo8cGF0aCBkPSJNIDkwIDExMCBRIDEwMCAxMjAgMTEwIDExMCIgc3Ryb2tlPSIjMWExYTFhIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPGVsbGlwc2UgY3g9Ijc1IiBjeT0iNzAiIHJ4PSIxNSIgcnk9IjIwIiBmaWxsPSIjRkZENzAwIi8+CjxlbGxpcHNlIGN4PSIxMjUiIGN5PSI3MCIgcng9IjE1IiByeT0iMjAiIGZpbGw9IiNGRkQ3MDAiLz4KPC9zdmc+');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [user, setUser] = useState(null);
+            const [currentPage, setCurrentPage] = useState('home');
+            const [showAuthModal, setShowAuthModal] = useState(false);
+            const [authMode, setAuthMode] = useState('signin');
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('guardbulldog_user');
+                if (savedUser) {
+                    try {
+                        const userData = JSON.parse(savedUser);
+                        setUser(userData);
+                    } catch (e) {
+                        localStorage.removeItem('guardbulldog_user');
+                    }
+                }
+            }, []);
+
+            const handleLogin = (email, password) => {
+                console.log('Login attempt:', email, password);
+                
+                if (!email || !password) {
+                    alert('Please enter both email and password');
+                    return;
+                }
+
+                // Demo users
+                const validUsers = {
+                    'admin@bowiestate.edu': { password: 'Admin123!', role: 'admin', name: 'Admin User' },
+                    'student@bowiestate.edu': { password: 'Student123!', role: 'user', name: 'Student User' },
+                    'faculty@bowiestate.edu': { password: 'Faculty123!', role: 'user', name: 'Faculty Member' }
+                };
+
+                const validUser = validUsers[email];
+                if (validUser && validUser.password === password) {
+                    const userData = {
+                        name: validUser.name,
+                        email: email,
+                        role: validUser.role,
+                        loginTime: Date.now(),
+                        sessionId: Math.random().toString(36).substr(2, 9)
+                    };
+                    setUser(userData);
+                    localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                    setShowAuthModal(false);
+                    setCurrentPage('dashboard');
+                    alert('Login successful!');
+                } else {
+                    alert('Invalid email or password');
+                }
+            };
+
+            const handleSignup = (name, email, password, confirmPassword) => {
+                console.log('Signup attempt:', name, email, password, confirmPassword);
+                
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+
+                const userData = {
+                    name: name,
+                    email: email,
+                    role: 'user',
+                    registrationDate: new Date().toISOString(),
+                    sessionId: Math.random().toString(36).substr(2, 9),
+                    loginTime: Date.now()
+                };
+
+                setUser(userData);
+                localStorage.setItem('guardbulldog_user', JSON.stringify(userData));
+                setShowAuthModal(false);
+                setCurrentPage('dashboard');
+                alert('Account created successfully!');
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('guardbulldog_user');
+                setCurrentPage('home');
+                alert('Logged out successfully!');
+            };
+
+            const AuthModal = () => {
+                if (!showAuthModal) return null;
+
+                return (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-bold text-gray-900">
+                                    {authMode === 'signin' ? 'Sign In' : 'Create Account'}
+                                </h2>
+                                <button onClick={() => setShowAuthModal(false)} className="text-gray-500 hover:text-gray-700">
+                                    <i className="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                const formData = new FormData(e.target);
+                                console.log('Form submitted:', authMode);
+                                
+                                if (authMode === 'signin') {
+                                    handleLogin(formData.get('email'), formData.get('password'));
+                                } else {
+                                    handleSignup(
+                                        formData.get('name'), 
+                                        formData.get('email'), 
+                                        formData.get('password'),
+                                        formData.get('confirmPassword')
+                                    );
+                                }
+                            }} className="space-y-4">
+                                {authMode === 'signup' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                )}
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        required
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    />
+                                </div>
+
+                                {authMode === 'signup' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                        <input
+                                            type="password"
+                                            name="confirmPassword"
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                )}
+                                
+                                <button type="submit" className="w-full btn-primary py-3 rounded-lg font-medium">
+                                    {authMode === 'signin' ? 'Sign In' : 'Create Account'}
+                                </button>
+                            </form>
+                            
+                            <div className="mt-6 text-center">
+                                <p className="text-gray-600">
+                                    {authMode === 'signin' ? "Don't have an account?" : "Already have an account?"}
+                                    <button 
+                                        onClick={() => setAuthMode(authMode === 'signin' ? 'signup' : 'signin')}
+                                        className="text-yellow-600 hover:text-yellow-800 ml-1 font-medium"
+                                    >
+                                        {authMode === 'signin' ? 'Sign up' : 'Sign in'}
+                                    </button>
+                                </p>
+                            </div>
+
+                            {authMode === 'signin' && (
+                                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                                    <p className="text-sm text-blue-800 font-medium mb-2">Demo Accounts:</p>
+                                    <div className="text-xs text-blue-700 space-y-1">
+                                        <div>Admin: admin@bowiestate.edu / Admin123!</div>
+                                        <div>Student: student@bowiestate.edu / Student123!</div>
+                                        <div>Faculty: faculty@bowiestate.edu / Faculty123!</div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            };
+
+            const Navbar = () => (
+                <nav className="bg-white shadow-lg sticky top-0 z-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-16">
+                            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setCurrentPage('home')}>
+                                <div className="bulldog-logo"></div>
+                                <span className="text-2xl font-bold text-gray-900">GUARDBULLDOG</span>
+                            </div>
+                            <div className="hidden md:flex items-center space-x-8">
+                                <button onClick={() => setCurrentPage('home')} className="text-gray-700 hover:text-yellow-600 font-medium">Home</button>
+                                <button onClick={() => setCurrentPage('about')} className="text-gray-700 hover:text-yellow-600 font-medium">About</button>
+                                <button onClick={() => setCurrentPage('education')} className="text-gray-700 hover:text-yellow-600 font-medium">Education</button>
+                                {user && <button onClick={() => setCurrentPage('report')} className="text-gray-700 hover:text-yellow-600 font-medium">Report</button>}
+                                {user ? (
+                                    <div className="flex items-center space-x-4">
+                                        <button onClick={() => setCurrentPage('dashboard')} className="text-gray-700 hover:text-yellow-600 font-medium">Dashboard</button>
+                                        {user.role === 'admin' && <button onClick={() => setCurrentPage('admin')} className="text-gray-700 hover:text-yellow-600 font-medium">Admin</button>}
+                                        <span className="text-gray-600">Welcome, {user.name}</span>
+                                        <button onClick={handleLogout} className="text-red-600 hover:text-red-800">
+                                            <i className="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center space-x-4">
+                                        <button 
+                                            onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }}
+                                            className="text-gray-700 hover:text-yellow-600 font-medium"
+                                        >
+                                            Sign In
+                                        </button>
+                                        <button 
+                                            onClick={() => { setAuthMode('signup'); setShowAuthModal(true); }}
+                                            className="btn-primary px-4 py-2 rounded-lg"
+                                        >
+                                            Sign Up
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            );
+
+            const Dashboard = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to Your Dashboard</h1>
+                        <p className="text-xl text-gray-600">Manage your cybersecurity training and reports</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-graduation-cap text-2xl text-green-600"></i>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-600">Training Progress</p>
+                                    <p className="text-2xl font-bold text-gray-900">75%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-600">Reports Submitted</p>
+                                    <p className="text-2xl font-bold text-gray-900">3</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <div className="flex items-center">
+                                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <i className="fas fa-star text-2xl text-yellow-600"></i>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-gray-600">Security Score</p>
+                                    <p className="text-2xl font-bold text-gray-900">A+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8">
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+                            <div className="space-y-3">
+                                <button 
+                                    onClick={() => setCurrentPage('report')}
+                                    className="w-full text-left p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
+                                >
+                                    <i className="fas fa-exclamation-triangle text-red-600 mr-3"></i>
+                                    Report Phishing Email
+                                </button>
+                                <button 
+                                    onClick={() => setCurrentPage('education')}
+                                    className="w-full text-left p-4 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
+                                >
+                                    <i className="fas fa-graduation-cap text-green-600 mr-3"></i>
+                                    Continue Training
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+                            <div className="space-y-4">
+                                <div className="flex items-center space-x-3 p-3 rounded-lg bg-green-50">
+                                    <i className="fas fa-check-circle text-green-600"></i>
+                                    <span className="text-sm text-gray-700">Completed Email Security module</span>
+                                </div>
+                                <div className="flex items-center space-x-3 p-3 rounded-lg bg-blue-50">
+                                    <i className="fas fa-flag text-blue-600"></i>
+                                    <span className="text-sm text-gray-700">Reported suspicious email</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const AdminPage = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Admin Panel</h1>
+                        <p className="text-xl text-gray-600">Manage users, monitor threats, and oversee system security</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div className="bg-blue-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-users text-3xl text-blue-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-blue-600">Total Users</p>
+                                    <p className="text-2xl font-bold text-blue-900">1,247</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-red-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-exclamation-triangle text-3xl text-red-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-red-600">Threats Blocked</p>
+                                    <p className="text-2xl font-bold text-red-900">89</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-green-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-graduation-cap text-3xl text-green-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-green-600">Training Complete</p>
+                                    <p className="text-2xl font-bold text-green-900">78%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-yellow-50 rounded-lg p-6">
+                            <div className="flex items-center">
+                                <i className="fas fa-flag text-3xl text-yellow-600"></i>
+                                <div className="ml-4">
+                                    <p className="text-sm font-medium text-yellow-600">Reports Today</p>
+                                    <p className="text-2xl font-bold text-yellow-900">12</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-6">
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">System Overview</h2>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="bg-gray-50 rounded-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                                <div className="space-y-3">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">Phishing email blocked from external@suspicious.com</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">User completed phishing awareness training</span>
+                                    </div>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                        <span className="text-sm text-gray-600">New phishing report submitted</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">System Health</h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">Email Scanner</span>
+                                        <span className="text-sm font-medium text-green-600">Online</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">URL Filter</span>
+                                        <span className="text-sm font-medium text-green-600">Online</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-gray-600">AI Detection</span>
+                                        <span className="text-sm font-medium text-green-600">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Home Page Component
+            const HomePage = () => (
+                <div>
+                    {/* Hero Section */}
+                    <section className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 text-white py-20">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h1 className="text-5xl font-bold mb-6">Protect Against Phishing Attacks</h1>
+                            <p className="text-xl mb-8 max-w-3xl mx-auto">
+                                Advanced AI-powered phishing detection and comprehensive security awareness training 
+                                for Bowie State University. Stay protected against evolving cyber threats.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <button 
+                                    onClick={() => user ? setCurrentPage('dashboard') : setShowAuthModal(true)}
+                                    className="bg-white text-yellow-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors"
+                                >
+                                    Get Started
+                                </button>
+                                <button 
+                                    onClick={() => setCurrentPage('education')}
+                                    className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-yellow-600 transition-colors"
+                                >
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Features Section */}
+                    <section className="py-20 bg-white">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">Comprehensive Phishing Protection</h2>
+                                <p className="text-xl text-gray-600">Advanced security features to keep you safe</p>
+                            </div>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <div className="text-center card-hover p-6">
+                                    <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i className="fas fa-shield-alt text-2xl text-yellow-600"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">AI Detection</h3>
+                                    <p className="text-gray-600">Advanced machine learning algorithms detect sophisticated phishing attempts in real-time.</p>
+                                </div>
+                                <div className="text-center card-hover p-6">
+                                    <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i className="fas fa-graduation-cap text-2xl text-yellow-600"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Security Training</h3>
+                                    <p className="text-gray-600">Interactive modules teach you to identify and respond to phishing threats effectively.</p>
+                                </div>
+                                <div className="text-center card-hover p-6">
+                                    <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i className="fas fa-exclamation-triangle text-2xl text-yellow-600"></i>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Instant Reporting</h3>
+                                    <p className="text-gray-600">Quick and easy reporting system to alert security teams about suspicious emails.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+
+            // Education Page Component  
+            const EducationPage = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Security Education</h1>
+                        <p className="text-xl text-gray-600">Learn to identify and prevent phishing attacks</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-envelope-open-text text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Email Security</h3>
+                            <p className="text-gray-600 mb-4">Learn to identify suspicious emails and protect your inbox</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-green-600 font-medium">Beginner</span>
+                                <span className="text-sm text-gray-500">15 min</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-key text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Password Security</h3>
+                            <p className="text-gray-600 mb-4">Master the art of creating and managing secure passwords</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-green-600 font-medium">Beginner</span>
+                                <span className="text-sm text-gray-500">20 min</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-users text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Social Engineering</h3>
+                            <p className="text-gray-600 mb-4">Understand psychological manipulation tactics used by attackers</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-yellow-600 font-medium">Intermediate</span>
+                                <span className="text-sm text-gray-500">25 min</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-globe text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Safe Web Browsing</h3>
+                            <p className="text-gray-600 mb-4">Navigate the internet safely and identify malicious websites</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-green-600 font-medium">Beginner</span>
+                                <span className="text-sm text-gray-500">18 min</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-mobile-alt text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Mobile Security</h3>
+                            <p className="text-gray-600 mb-4">Protect your mobile devices from phishing and malware</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-yellow-600 font-medium">Intermediate</span>
+                                <span className="text-sm text-gray-500">22 min</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                                <i className="fas fa-database text-xl text-yellow-600"></i>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">Data Protection</h3>
+                            <p className="text-gray-600 mb-4">Learn how to protect sensitive information and personal data</p>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-red-600 font-medium">Advanced</span>
+                                <span className="text-sm text-gray-500">30 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // About Page Component
+            const AboutPage = () => (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">About GUARDBULLDOG</h1>
+                        <p className="text-xl text-gray-600">Protecting Bowie State University from cyber threats</p>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                            <p className="text-lg text-gray-600 mb-6">
+                                GUARDBULLDOG is dedicated to protecting the Bowie State University community from 
+                                phishing attacks and cyber threats through advanced AI detection, comprehensive 
+                                education, and proactive security measures.
+                            </p>
+                            <p className="text-lg text-gray-600">
+                                We believe that cybersecurity education is the first line of defense against 
+                                evolving threats, empowering every member of our community to recognize and 
+                                respond to potential security risks.
+                            </p>
+                        </div>
+                        <div className="text-center">
+                            <div className="bulldog-logo mx-auto mb-6" style={{width: '120px', height: '120px'}}></div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Bowie State University</h3>
+                            <p className="text-gray-600">Cybersecurity Excellence</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-xl p-8 mb-12">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Key Features</h2>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="flex items-start space-x-4">
+                                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i className="fas fa-check text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-2">AI-Powered Detection</h4>
+                                    <p className="text-gray-600">Advanced machine learning algorithms analyze emails and websites for phishing indicators.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start space-x-4">
+                                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i className="fas fa-check text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Interactive Training</h4>
+                                    <p className="text-gray-600">Engaging educational modules with quizzes and real-world scenarios.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start space-x-4">
+                                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i className="fas fa-check text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Real-time Reporting</h4>
+                                    <p className="text-gray-600">Instant notification system for suspicious emails and security incidents.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start space-x-4">
+                                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i className="fas fa-check text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-2">24/7 Monitoring</h4>
+                                    <p className="text-gray-600">Continuous surveillance and threat assessment to protect university systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="text-center">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-center space-x-3">
+                                    <i className="fas fa-envelope text-yellow-600"></i>
+                                    <span className="text-gray-700">security@bowiestate.edu</span>
+                                </div>
+                                <div className="flex items-center justify-center space-x-3">
+                                    <i className="fas fa-phone text-yellow-600"></i>
+                                    <span className="text-gray-700">(301) 860-4000</span>
+                                </div>
+                                <div className="flex items-center justify-center space-x-3">
+                                    <i className="fas fa-map-marker-alt text-yellow-600"></i>
+                                    <span className="text-gray-700">14000 Jericho Park Rd, Bowie, MD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Report Page Component
+            const ReportPage = () => (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Report Phishing</h1>
+                        <p className="text-xl text-gray-600">Help protect our community by reporting suspicious emails and websites</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-lg p-8">
+                        <form className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Email Subject</label>
+                                <input
+                                    type="text"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Sender Email</label>
+                                <input
+                                    type="email"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Email Content</label>
+                                <textarea
+                                    rows="4"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    required
+                                ></textarea>
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full bg-red-600 text-white py-4 px-6 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                            >
+                                <i className="fas fa-shield-alt mr-2"></i>
+                                Submit Report
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Navbar />
+                    <AuthModal />
+                    
+                    {currentPage === 'home' && <HomePage />}
+                    {currentPage === 'dashboard' && user && <Dashboard />}
+                    {currentPage === 'education' && <EducationPage />}
+                    {currentPage === 'about' && <AboutPage />}
+                    {currentPage === 'report' && user && <ReportPage />}
+                    {currentPage === 'admin' && user && user.role === 'admin' && <AdminPage />}
+                    
+                    {!user && currentPage === 'dashboard' && (
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">Please Sign In</h2>
+                            <p className="text-gray-600 mb-8">You need to sign in to access the dashboard.</p>
+                            <button 
+                                onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }}
+                                className="btn-primary px-8 py-4 rounded-lg text-lg"
+                            >
+                                Sign In Now
+                            </button>
+                        </div>
+                    )}
+                    
+                    {!user && currentPage === 'report' && (
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">Please Sign In</h2>
+                            <p className="text-gray-600 mb-8">You need to sign in to report phishing attempts.</p>
+                            <button 
+                                onClick={() => { setAuthMode('signin'); setShowAuthModal(true); }}
+                                className="btn-primary px-8 py-4 rounded-lg text-lg"
+                            >
+                                Sign In Now
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

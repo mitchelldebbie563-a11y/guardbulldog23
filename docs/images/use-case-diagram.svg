@@ -1,0 +1,102 @@
+<svg width="620" height="520" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    .actor {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .use-case {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      text-anchor: middle;
+      fill: #2d3748;
+    }
+    .uc-rect {
+      fill: #f0f4f8;
+      stroke: #a0aec0;
+      stroke-width: 1.5;
+      rx: 15;
+    }
+    .line {
+      stroke: #4a5568;
+      stroke-width: 1.5;
+    }
+    .include-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      fill: #718096;
+      text-anchor: middle;
+    }
+    .title {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        text-anchor: middle;
+        fill: #2d3748;
+    }
+  </style>
+
+  <!-- Arrowhead marker for inheritance -->
+  <defs>
+    <marker id="arrow-inherit" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568" stroke="none" />
+    </marker>
+    <marker id="arrow-include" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#718096" stroke="none" />
+    </marker>
+  </defs>
+  
+  <text x="310" y="30" class="title">GUARDBULLDOG Use Case Diagram</text>
+
+  <!-- Actors -->
+  <g id="user-actor">
+    <circle cx="80" cy="250" r="20" fill="#fff" stroke="#4a5568" stroke-width="1.5"/>
+    <line x1="80" y1="270" x2="80" y2="310" class="line"/>
+    <line x1="60" y1="285" x2="100" y2="285" class="line"/>
+    <line x1="80" y1="310" x2="60" y2="340" class="line"/>
+    <line x1="80" y1="310" x2="100" y2="340" class="line"/>
+    <text x="80" y="360" class="actor">User</text>
+  </g>
+  
+  <g id="admin-actor">
+    <circle cx="540" cy="250" r="20" fill="#fff" stroke="#4a5568" stroke-width="1.5"/>
+    <line x1="540" y1="270" x2="540" y2="310" class="line"/>
+    <line x1="520" y1="285" x2="560" y2="285" class="line"/>
+    <line x1="540" y1="310" x2="520" y2="340" class="line"/>
+    <line x1="540" y1="310" x2="560" y2="340" class="line"/>
+    <text x="540" y="360" class="actor">Admin</text>
+  </g>
+
+  <!-- Use Cases -->
+  <g id="user-use-cases">
+    <rect x="200" y="80" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="105" class="use-case">Register Account</text>
+    <rect x="200" y="150" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="175" class="use-case">Login</text>
+    <rect x="200" y="220" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="245" class="use-case">Report Phishing Email</text>
+    <rect x="200" y="290" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="315" class="use-case">Complete Awareness Module</text>
+  </g>
+
+  <g id="admin-use-cases">
+    <rect x="200" y="360" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="385" class="use-case">Review & Triage Incident</text>
+    <rect x="200" y="430" width="220" height="40" class="uc-rect"/>
+    <text x="310" y="455" class="use-case">Manage Educational Content</text>
+  </g>
+
+  <!-- Lines -->
+  <line x1="110" y1="280" x2="190" y2="100" class="line"/>
+  <line x1="110" y1="280" x2="190" y2="170" class="line"/>
+  <line x1="110" y1="280" x2="190" y2="240" class="line"/>
+  <line x1="110" y1="280" x2="190" y2="310" class="line"/>
+  
+  <line x1="430" y1="380" x2="510" y2="280" class="line"/>
+  <line x1="430" y1="450" x2="510" y2="280" class="line"/>
+  
+  <!-- Inheritance Line -->
+  <line x1="510" y1="265" x2="110" y2="265" class="line" marker-end="url(#arrow-inherit)"/>
+  
+</svg>
