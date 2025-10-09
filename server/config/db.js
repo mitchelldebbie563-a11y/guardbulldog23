@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Create a new database file. If it does not exist, it will be created.
-const db = new sqlite3.Database('./guardbulldog.db', (err) => {
+const db = new sqlite3.Database('/tmp/guardbulldog.db', (err) => {
   if (err) {
     console.error(err.message);
   }
