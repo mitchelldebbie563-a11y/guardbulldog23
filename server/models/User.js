@@ -1,28 +1,27 @@
-const mongoose = require('mongoose');
+const db = require('../config/db');
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const User = {
+  create: (user, callback) => {
+    const { firstName, lastName, email, password, role, department } = user;
+    const sql = `INSERT INTO users (firstName, lastName, email, password, role, department) VALUES (?, ?, ?, ?, ?, ?)`;
+    db.run(sql, [firstName, lastName, email, password, role, department], function(err) {
+      callback(err, { id: this.lastID });
+    });
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['User', 'Admin'],
-    default: 'User',
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
 
-module.exports = mongoose.model('user', UserSchema);
+  findByEmail: (email, callback) => {
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    db.get(sql, [email], (err, row) => {
+      callback(err, row);
+    });
+  },
+
+  findById: (id, callback) => {
+    const sql = `SELECT * FROM users WHERE id = ?`;
+    db.get(sql, [id], (err, row) => {
+      callback(err, row);
+    });
+  }
+};
+
+module.exports = User;

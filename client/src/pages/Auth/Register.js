@@ -49,9 +49,7 @@ const Register = () => {
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!formData.email.endsWith('@bowie.edu') && !formData.email.endsWith('@students.bowiestate.edu')) {
-      newErrors.email = 'Please use your Bowie State University email';
-    }
+        }
 
     if (!formData.password) {
       newErrors.password = 'Password is required';

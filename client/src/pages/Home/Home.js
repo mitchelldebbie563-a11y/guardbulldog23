@@ -66,8 +66,8 @@ const Home = () => {
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Bowie State University's comprehensive phishing awareness and reporting system. 
-              Protect yourself and the university community from cyber threats.
+              Advanced AI-powered phishing detection and comprehensive security awareness training 
+              for Bowie State University. Stay protected against evolving cyber threats.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
