@@ -6,33 +6,32 @@ const jwt = require('jsonwebtoken');
 exports.handler = async function (event, context) {
   const { email, password } = JSON.parse(event.body);
 
-  return new Promise((resolve, reject) => {
-    User.findByEmail(email, async (err, user) => {
-      if (err) {
-        return resolve({ statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) });
-      }
-      if (!user) {
-        return resolve({ statusCode: 400, body: JSON.stringify({ msg: 'Invalid credentials' }) });
-      }
+  try {
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return { statusCode: 400, body: JSON.stringify({ msg: 'Invalid credentials' }) };
+    }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return resolve({ statusCode: 400, body: JSON.stringify({ msg: 'Invalid credentials' }) });
-      }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return { statusCode: 400, body: JSON.stringify({ msg: 'Invalid credentials' }) };
+    }
 
-      const payload = {
-        user: {
-          id: user.id,
-          role: user.role,
-        },
-      };
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.role,
+      },
+    };
 
-      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
 
-      resolve({
-        statusCode: 200,
-        body: JSON.stringify({ token }),
-      });
-    });
-  });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ token }),
+    };
+  } catch (err) {
+    console.error(err);
+    return { statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) };
+  }
 };

@@ -4,48 +4,47 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.handler = async function (event, context) {
-  const { firstName, lastName, email, password, role, department } = JSON.parse(event.body);
+  const { firstName, lastName, email, password, department } = JSON.parse(event.body);
 
-  return new Promise((resolve, reject) => {
-    User.findByEmail(email, async (err, user) => {
-      if (err) {
-        return resolve({ statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) });
-      }
-      if (user) {
-        return resolve({ statusCode: 400, body: JSON.stringify({ msg: 'User already exists' }) });
-      }
+  try {
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      return { statusCode: 400, body: JSON.stringify({ msg: 'User already exists' }) };
+    }
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+    // Check if this is the first user
+    const firstUser = await User.findFirstUser();
+    const role = firstUser ? 'user' : 'super_admin';
 
-      const newUser = {
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        role,
-        department,
-      };
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-      User.create(newUser, (err, result) => {
-        if (err) {
-          return resolve({ statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) });
-        }
+    const newUser = {
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role,
+      department,
+    };
 
-        const payload = {
-          user: {
-            id: result.id,
-            role: newUser.role,
-          },
-        };
+    const result = await User.create(newUser);
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+    const payload = {
+      user: {
+        id: result.id,
+        role: newUser.role,
+      },
+    };
 
-        resolve({
-          statusCode: 200,
-          body: JSON.stringify({ token }),
-        });
-      });
-    });
-  });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ token }),
+    };
+  } catch (err) {
+    console.error(err);
+    return { statusCode: 500, body: JSON.stringify({ msg: 'Server error' }) };
+  }
 };
