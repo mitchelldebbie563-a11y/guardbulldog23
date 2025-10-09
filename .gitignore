@@ -88,7 +88,6 @@ server/uploads/
 
 # Gatsby
 .cache/
-public/
 
 # Storybook
 .out
