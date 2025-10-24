@@ -65,13 +65,12 @@ const createTables = async () => {
         title VARCHAR(255) NOT NULL,
         description TEXT,
         content TEXT NOT NULL,
-        difficulty VARCHAR(50),
-        "estimatedTime" INTEGER,
         category VARCHAR(100),
-        "createdBy" INTEGER,
-        "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY ("createdBy") REFERENCES users (id) ON DELETE SET NULL
+        difficulty VARCHAR(50) DEFAULT 'beginner',
+        duration INTEGER DEFAULT 10,
+        quiz_questions JSONB,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
@@ -79,16 +78,13 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_progress (
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER NOT NULL,
-        "moduleId" INTEGER NOT NULL,
-        status VARCHAR(50) DEFAULT 'not_started',
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        module_id INTEGER REFERENCES education_modules(id) ON DELETE CASCADE,
+        completed BOOLEAN DEFAULT FALSE,
         score INTEGER,
-        "completedAt" TIMESTAMP WITH TIME ZONE,
-        "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY ("userId") REFERENCES users (id) ON DELETE CASCADE,
-        FOREIGN KEY ("moduleId") REFERENCES education_modules (id) ON DELETE CASCADE,
-        UNIQUE ("userId", "moduleId")
+        completed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, module_id)
       );
     `);
 
@@ -96,14 +92,11 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE IF NOT EXISTS audit_logs (
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER,
+        user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
         action VARCHAR(255) NOT NULL,
-        entity VARCHAR(100),
-        "entityId" INTEGER,
         details TEXT,
-        "ipAddress" VARCHAR(50),
-        "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY ("userId") REFERENCES users (id) ON DELETE SET NULL
+        ip_address VARCHAR(50),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 

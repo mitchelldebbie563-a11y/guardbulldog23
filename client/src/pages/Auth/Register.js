@@ -5,8 +5,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -39,17 +38,13 @@ const Register = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+    if (!formData.name.trim()) {
+      newErrors.name = 'Full name is required';
     }
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
-        }
+    }
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
@@ -105,38 +100,21 @@ const Register = () => {
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
-            {/* First and Last Name */}
-            <div className="flex space-x-2">
-              <div className="w-1/2">
-                <label htmlFor="firstName" className="sr-only">First Name</label>
-                <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  autoComplete="given-name"
-                  required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.firstName ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-                {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
-              </div>
-              <div className="w-1/2">
-                <label htmlFor="lastName" className="sr-only">Last Name</label>
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  autoComplete="family-name"
-                  required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.lastName ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
-                {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
-              </div>
+            {/* Full Name */}
+            <div>
+              <label htmlFor="name" className="sr-only">Full Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
 
             {/* Email */}

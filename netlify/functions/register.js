@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.handler = async function (event, context) {
-  const { firstName, lastName, email, password, role, department } = JSON.parse(event.body);
+  const { firstName, lastName, name, email, password, role, department } = JSON.parse(event.body);
 
   try {
     const existingUser = await User.findByEmail(email);
@@ -19,9 +19,11 @@ exports.handler = async function (event, context) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Combine firstName and lastName into name if provided, otherwise use name directly
+    const fullName = name || `${firstName || ''} ${lastName || ''}`.trim();
+
     const newUser = {
-      firstName,
-      lastName,
+      name: fullName,
       email,
       password: hashedPassword,
       role: finalRole,

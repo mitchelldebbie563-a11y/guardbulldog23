@@ -60,134 +60,96 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen hero-pattern flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
         {/* Header */}
-        <div className="text-center">
-          <div className="mx-auto h-12 w-auto flex items-center justify-center">
-            <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-2xl">GB</span>
-            </div>
+        <div className="text-center mb-8">
+          <div className="mx-auto w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center shadow-lg mb-6">
+            <span className="text-gray-900 font-bold text-3xl" style={{fontFamily: 'Orbitron'}}>GB</span>
           </div>
-          <h1 className="mt-6 text-3xl font-bold text-gray-900">Sign in to <span className="text-secondary">GUARD</span>BULLDOG</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Sign in to your GUARDBULLDOG account
+          <h1 className="text-4xl font-bold text-gray-900" style={{fontFamily: 'Orbitron'}}>
+            <span className="gradient-text">GUARD</span>BULLDOG
+          </h1>
+          <p className="mt-3 text-lg text-gray-600" style={{fontFamily: 'Rajdhani'}}>
+            Phishing Awareness & Reporting System
           </p>
         </div>
 
-        {/* Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+        {/* Form Card */}
+        <div className="card card-hover">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="email-address" className="block text-sm font-semibold text-gray-700 mb-2" style={{fontFamily: 'Rajdhani'}}>
+                  Email Address
+                </label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className={`w-full px-4 py-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all`}
+                  placeholder="student@bowie.edu"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+              </div>
+              <div className="relative">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2" style={{fontFamily: 'Rajdhani'}}>
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  className={`w-full px-4 py-3 pr-12 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all`}
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-11 text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              </div>
             </div>
-            <div className="relative">
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                required
-                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm`}
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <EyeIcon className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
-            </div>
-          </div>
 
-          <div>
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50"
+              className="btn-primary w-full py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{fontFamily: 'Rajdhani'}}
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
 
         {/* Footer */}
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
+        <div className="text-center mt-6">
+          <p className="text-sm text-gray-600" style={{fontFamily: 'Rajdhani'}}>
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="font-medium text-secondary hover:text-primary transition-colors"
+              className="font-semibold gradient-text hover:opacity-80 transition-opacity"
             >
               Create one here
             </Link>
           </p>
         </div>
 
-        {/* Demo Accounts Notice */}
-        <div className="mt-8 p-4 bg-yellow-50 rounded-lg">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-yellow-800">
-                Demo Accounts
-              </h3>
-              <div className="mt-2 text-sm text-yellow-700 space-y-1">
-                <p><strong>Super Admin:</strong> admin@bowie.edu / Admin123!</p>
-                <p><strong>Admin:</strong> security@bowie.edu / Security123!</p>
-                <p><strong>Student:</strong> student@bowie.edu / Student123!</p>
-                <p><strong>Faculty:</strong> faculty@bowie.edu / Faculty123!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Security Notice */}
-        <div className="mt-8 p-4 bg-yellow-50 rounded-lg">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-yellow-800">
-                Security Notice
-              </h3>
-              <div className="mt-2 text-sm text-yellow-700">
-                <p>
-                  Only Bowie State University email addresses are accepted. 
-                  Your account helps protect our campus community from phishing threats.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
