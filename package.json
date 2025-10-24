@@ -11,7 +11,9 @@
     "install-client": "cd client && npm install",
     "install-server": "npm install",
     "install-all": "npm run install-server && npm run install-client",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "seed": "node server/scripts/seed.js",
+    "db:setup": "node server/config/db.js && npm run seed"
   },
   "keywords": ["phishing", "cybersecurity", "education", "reporting"],
   "author": "GUARDBULLDOG Team - Bowie State University",

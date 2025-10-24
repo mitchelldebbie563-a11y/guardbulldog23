@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDBULLDOG - Phishing Protection for Bowie State University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #d97706;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d97706;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+        }
+        
+        .about h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .contact h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-card h3 {
+            color: #d97706;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Login Form */
+        .login-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background: #b45309;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .dashboard {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        
+        .dashboard h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .dashboard-card h3 {
+            color: #d97706;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">GUARD<span style="color: #fbbf24;">BULLDOG</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#about" onclick="showSection('about')">About</a></li>
+                <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
+                <li><a href="#login" onclick="showSection('login')">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+        <div class="hero">
+            <div class="container">
+                <h1>GUARD<span style="color: #fbbf24;">BULLDOG</span></h1>
+                <p>Advanced AI-powered phishing detection and comprehensive security awareness training for Bowie State University. Stay protected against evolving cyber threats.</p>
+                <a href="#login" class="btn" onclick="showSection('login')">Get Started</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="container">
+                <h2>Comprehensive Phishing Protection</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚠️</div>
+                        <h3>Report Phishing</h3>
+                        <p>Quickly report suspicious emails and help protect the university community from cyber threats.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎓</div>
+                        <h3>Security Education</h3>
+                        <p>Learn to identify and prevent phishing attacks through interactive modules and training.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Threat Analytics</h3>
+                        <p>View real-time statistics and trends about phishing threats affecting our campus.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Advanced Protection</h3>
+                        <p>Comprehensive security measures powered by AI to keep your data and accounts safe.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section hidden">
+        <div class="about">
+            <div class="container">
+                <h2>About GUARDBULLDOG</h2>
+                <div class="about-content">
+                    <p><strong>GUARDBULLDOG</strong> is a comprehensive phishing awareness and security reporting platform designed specifically for the students, faculty, and staff of Bowie State University. Our mission is to create a safer digital campus by empowering our community to recognize, report, and defend against malicious cyber threats like phishing.</p>
+                    
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #d97706;">The Threat</h3>
+                    <p>In today's digital age, email-based attacks are more sophisticated than ever. Phishing scams attempt to trick individuals into revealing sensitive personal information, such as passwords, credit card numbers, and social security numbers. These attacks not only pose a risk to individuals but also to the security and integrity of the entire university network.</p>
+                    
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #d97706;">Our Approach</h3>
+                    <p>We believe that a combination of cutting-edge technology and continuous education is the most effective defense. GUARDBULLDOG provides AI-powered detection, instant reporting tools, educational resources, and community-wide protection for the entire Bowie State University family.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section hidden">
+        <div class="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>📧 Email</h3>
+                        <p>For general inquiries and support:</p>
+                        <strong>security@bowie.edu</strong>
+                    </div>
+                    <div class="contact-card">
+                        <h3>📞 Phone</h3>
+                        <p>For urgent security matters:</p>
+                        <strong>(301) 860-4000</strong>
+                    </div>
+                    <div class="contact-card">
+                        <h3>📍 Location</h3>
+                        <p>Bowie State University</p>
+                        <strong>IT Security Department</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section id="login" class="section hidden">
+        <div class="login-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Sign In to GUARDBULLDOG</h2>
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign In</button>
+                </form>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: #fef3c7; border-radius: 5px;">
+                    <h4 style="color: #92400e; margin-bottom: 1rem;">Demo Accounts:</h4>
+                    <p><strong>Admin:</strong> admin@bowie.edu / Admin123!</p>
+                    <p><strong>Student:</strong> student@bowie.edu / Student123!</p>
+                    <p><strong>Faculty:</strong> faculty@bowie.edu / Faculty123!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section hidden">
+        <div class="dashboard">
+            <div class="container">
+                <h1>Welcome to GUARDBULLDOG Dashboard</h1>
+                <p style="text-align: center; margin-bottom: 2rem;">You are successfully logged in!</p>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>📧 Report Phishing</h3>
+                        <p>Report suspicious emails to help protect our campus community.</p>
+                        <button class="btn-primary" onclick="alert('Phishing report feature coming soon!')">Report Now</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>🎓 Security Training</h3>
+                        <p>Complete interactive modules to learn about cybersecurity.</p>
+                        <button class="btn-primary" onclick="alert('Training modules coming soon!')">Start Training</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>📊 My Reports</h3>
+                        <p>View your submitted phishing reports and their status.</p>
+                        <button class="btn-primary" onclick="alert('Reports dashboard coming soon!')">View Reports</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>⚙️ Settings</h3>
+                        <p>Manage your account settings and preferences.</p>
+                        <button class="btn-primary" onclick="alert('Settings panel coming soon!')">Open Settings</button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn-primary" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Bowie State University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionName).classList.remove('hidden');
+        }
+        
+        // Simple login functionality
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Demo login credentials
+            const validLogins = {
+                'admin@bowie.edu': 'Admin123!',
+                'student@bowie.edu': 'Student123!',
+                'faculty@bowie.edu': 'Faculty123!'
+            };
+            
+            if (validLogins[email] && validLogins[email] === password) {
+                alert('Login successful! Welcome to GUARDBULLDOG.');
+                showSection('dashboard');
+            } else {
+                alert('Invalid email or password. Please try the demo accounts provided.');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            alert('You have been logged out.');
+            showSection('home');
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // Show home section by default
+        showSection('home');
+    </script>
+</body>
+</html>
