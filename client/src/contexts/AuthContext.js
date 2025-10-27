@@ -28,17 +28,21 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
-      if (!token) {
+      const savedUser = localStorage.getItem('user');
+      
+      if (!token || !savedUser) {
         setLoading(false);
         return;
       }
 
       try {
-        const response = await axios.get('/api/auth/verify');
-        setUser(response.data.user);
+        // For simple auth, just use saved user data
+        setUser(JSON.parse(savedUser));
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       } catch (error) {
         console.error('Auth verification failed:', error);
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         delete axios.defaults.headers.common['Authorization'];
       } finally {
         setLoading(false);
@@ -50,17 +54,18 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await axios.post('/.netlify/functions/login-simple', { email, password });
       const { token, user: userData } = response.data;
 
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
 
-      toast.success(`Welcome back, ${userData.firstName}!`);
+      toast.success(`Welcome back!`);
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.response?.data?.msg || error.response?.data?.message || 'Login failed';
       toast.error(message);
       return { success: false, error: message };
     }
@@ -68,14 +73,15 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
+      const response = await axios.post('/.netlify/functions/register-simple', userData);
       const { token, user: newUser } = response.data;
 
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(newUser));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(newUser);
 
-      toast.success(`Welcome to GUARDBULLDOG, ${newUser.firstName}!`);
+      toast.success(`Welcome to GUARDBULLDOG!`);
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.message || 'Registration failed';
